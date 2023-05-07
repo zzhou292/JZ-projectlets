@@ -1,4 +1,4 @@
-function [problem,guess] = CarParking(obs_data, pos0_x, pos0_y, posf_x, posf_y, rot0)
+function [problem,guess] = ViperObs(obs_data, pos0_x, pos0_y, posf_x, posf_y, rot0)
 %CarParking - Minimum Time Parallel Parking
 %
 % The problem was adapted from 
@@ -22,8 +22,8 @@ function [problem,guess] = CarParking(obs_data, pos0_x, pos0_y, posf_x, posf_y, 
 
 %------------- BEGIN CODE --------------
 % Plant model name, used for Adigator
-InternalDynamics=@CarParking_Dynamics_Internal;
-SimDynamics=@CarParking_Dynamics_Sim;
+InternalDynamics=@ViperObs_Dynamics_Internal;
+SimDynamics=@ViperObs_Dynamics_Sim;
 
 % Analytic derivative files (optional)
 problem.analyticDeriv.gradCost=[];
@@ -31,7 +31,7 @@ problem.analyticDeriv.hessianLagrangian=[];
 problem.analyticDeriv.jacConst=[];
 
 % Settings file
-problem.settings=@settings_CarParking;
+problem.settings=@settings_ViperObs;
 
 % Scenario Parameters
 l_front=0.997; 
@@ -62,8 +62,8 @@ a0=0; % Initial accelration (m/s^2)
 phi0 = deg2rad(0); % Initial steering angle (rad)
 
 % Limits on Variables
-xmin = -25; xmax = 25;
-ymin = -25; ymax = 25;
+xmin = -10; xmax = 10;
+ymin = -10; ymax = 10;
 vmin = 0; vmax = v_max;
 amin = 0; amax = a_max;
 thetamin = -inf; thetamax = inf;

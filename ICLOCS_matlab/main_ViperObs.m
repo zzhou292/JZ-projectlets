@@ -28,7 +28,7 @@ posf_y = 8; % final rover y location
 rot0 = 60;
 
 
-[problem,guess]=CarParking(obs_data, pos0_x, pos0_y, posf_x, posf_y, rot0);          % Fetch the problem definition
+[problem,guess]=ViperObs(obs_data, pos0_x, pos0_y, posf_x, posf_y, rot0);          % Fetch the problem definition
 options= problem.settings(200);                  % Get options and solver settings 
 [solution,MRHistory]=solveMyProblem( problem,guess,options);
 
