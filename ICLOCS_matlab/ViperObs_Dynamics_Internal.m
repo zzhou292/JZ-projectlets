@@ -1,4 +1,4 @@
-function [dx,g_neq] = CarParking_Dynamics_Internal(x,u,p,t,vdat)
+function [dx,g_neq] = ViperObs_Dynamics_Internal(x,u,p,t,vdat)
 % Dynamics for Internal Model
 %
 % Syntax:  

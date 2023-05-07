@@ -1,4 +1,4 @@
-function options = settings_CarParking(varargin)
+function options = settings_ViperObs(varargin)
 
 %SETTINGS - General and solver-specific settings are selected here
 % Unless specified otherwise the options are set using 0 => no and 1 => yes

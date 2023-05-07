@@ -1,4 +1,4 @@
-function dx = CarParking_Dynamics_Sim(x,u,p,t,data)
+function dx = ViperObs_Dynamics_Sim(x,u,p,t,data)
 % Dynamics for Simulation
 %
 % Syntax:  
