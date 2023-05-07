@@ -63,35 +63,53 @@ In this project, we will develop the algorithm in Matlab, and use Project Chrono
 
 \section{Proposed Solution}
 
-The problem will be simplified into an optimal path planning and control optimization problem by assuming a square terrain with a center at (0.0, 0.0), and a fixed side length a. We will use two different types of rocks with different sizes as our obstacle. To further simplify the problem, a bounding circle, or what can be called a safety circle, will be drawn around the rock. From a bird's eye view, looking from above, the problem environment will be simplified into a 2D path planning and optimal control problem with a given square terrain, and with several rectangular-shaped obstacles, as shown in Figure \ref{fig:rover_path}.
+The problem is simplified into an optimal path planning and control optimization problem by assuming a square terrain with a center at (0.0, 0.0), and a fixed side length of 20 meters. Three different types of rocks with similar radius, while viewing birdeye view, are used. To further simplify the problem, a bounding circle, or what can be called a safety circle, is drawn around the rock. From a bird's eye view, looking from above, the problem environment is simplified into a 2D path planning and optimal control problem with a given square terrain, and with several circular-shaped obstacles, as shown in Figure \ref{fig:rover_path}.
 
-We employ car model as shown in Equations \ref{equ:car_dyn}.
+We employ a dynamic model of a simplified rover as shown in Equations \ref{equ:car_dyn}.
 
 \begin{equation}
 \label{equ:car_dyn}
   \left\{\begin{array}{@{}l@{}}
-    \dot{x}=vcos\theta  \\
-    \dot{y}=vsin\theta  \\
-    \dot{\theta} = \frac{v}{L}tan\phi \\
+    \dot{x}=v(t)cos(\theta(t))  \\
+    \dot{y}=v(t)sin(\theta(t))  \\
+    \dot{v}(t) = a(t) \\
+    \dot{a}(t) = u_{1}(t) \\
+    \dot{\theta}(t) = \frac{v(t)tan(\phi(t))}{l_{a}} \\
+    \dot{\phi}=u_{2}(t) \\
   \end{array}\right.\,.
 \end{equation}
 
-After the simplification, we assume that each obstacle has the properties shown in Equation \ref{equ:opt}, in which \(x_{obs_{k}}\) and \(y_{obs_{k}}\) represent the location of the k'th obstacle's bounding circle, and \(r_{obs_{k}}\) represent the radius of the bounding circle of the k'th obstacle. If we assume the entire time domain of the problem contains N steps, and there are M obstacles presented in the environment, the optimization control can be expressed and modelled as shown in Equations \ref{equ:opt}. Assuming the starting location of the rover is \([\) \(X_{start}\), \(Y_{start}\) \(]\), and the given target location is \([\) \(X_{end}\), \(Y_{end}\) \(]\). We use control effort as our cost function and assume minimum control effort as our optimization strategy.
+After the simplification, we assume that each obstacle has the properties shown in Equation \ref{equ:car_cons}, in which \(x_{obs_{k}}\) and \(y_{obs_{k}}\) represent the location of the k'th obstacle's bounding circle, and \(r_{obs_{k}}\) represent the radius of the bounding circle of the k'th obstacle. If we assume the entire time domain of the problem is $t_{f}$, and there are M obstacles presented in the environment. Assuming the starting location of the rover is \([\) \(x_{start}\), \(y_{start}\) \(]\), the given target location is \([\) \(x_{end}\), \(y_{end}\) \(]\), the initial rover yaw angle is $yaw_{t_{0}}$, and the initial rover steering angle $0$. We formulate the initial condition, terminal condition, and path constraint for the optimal control problem: 
 
 \begin{equation}
-\label{equ:opt}
-\begin{aligned}
-\min_{w,b,\xi} \quad & \sum_{i=0}^{N}{u_{i}^2}\\
-\textrm{s.t.} \quad & x_{N} = x_{end}, y_{N} = y_{end} \\
-    & x_{0} = x_{start}, y_{N} = y_{start} \\
-    &    \dot{x}=vcos\theta  \\
-    & \dot{y}=vsin\theta  \\
-    & \dot{\theta} = \frac{v}{L}tan\phi \\
-  &x_{i} < x_{obs_{k}}-r_{obs_{k}}, y_{i} < y_{obs_{k}}-r_{obs_{k}}    \\
-  &x_{i} > x_{obs_{k}}+r_{obs_{k}}, y_{i} > y_{obs_{k}}+r_{obs_{k}}   \\
-  & 0 \leq i \leq N, 0 \leq k \leq M \\
-\end{aligned}
+	\label{equ:car_cons}
+	\left\{\begin{array}{@{}l@{}}
+		x_{0} = x_{start}, y_{0} = y_{start}  \\
+		x_{t_{f}} = x_{end}, y_{t_{f}} = y_{end}  \\
+		\theta_{0}=yaw_{t_{0}}  \\
+		\phi_{0} = 0 \\
+		r_{i} < (x_{i}-x_{obs_{k}})^2 + (y_{i}-y_{obs_{k}})^2  \\
+		0 \leq i \leq t_{f}, 0 \leq k \leq M \\
+	\end{array}\right.\,.
 \end{equation}
+
+In addition to the above path constraints, an extra constraint is added to ensure on-board equipment's stability:
+
+\begin{equation}
+	\label{equ:car_stability}
+	-0.4 \leq \frac{u_{2}(t)}{l_{axes}cos^{2}(\theta(t) )} \leq 0.4 \\
+\end{equation}
+
+In the above equation, the $l_{axes}$ represents the distance between two axes of the rover. For the Viper lunar rover which is modeled in this project, the $l_{axes} = 1.4 m$
+
+The objective is for rover to finish the path in minimum time, as a results, the optimal control problem is formulated as:
+
+\begin{equation}
+	\label{equ:car_opt}
+	\min_{x,u,t_{f}}t_{f}\\
+\end{equation}
+
+
  
 
 \begin{figure}
