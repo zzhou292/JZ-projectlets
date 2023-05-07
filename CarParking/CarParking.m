@@ -34,11 +34,11 @@ problem.analyticDeriv.jacConst=[];
 problem.settings=@settings_CarParking;
 
 % Scenario Parameters
-l_front=0.439; 
-l_axes=1.588;
-l_rear=0.307; 
+l_front=0.997; 
+l_axes=1.4;
+l_rear=0.75; 
 b_width=0.9/2;
-phi_max=deg2rad(35);
+phi_max=deg2rad(30);
 a_max=0.8;
 v_max=3.0;
 u1_max=0.8;
@@ -135,8 +135,8 @@ problem.inputs.u0l=[amin -curvature_dot_max*l_axes*cos(phimax)^2];
 problem.inputs.u0u=[amax curvature_dot_max*l_axes*cos(phimax)^2];
 
 % Input rate bounds
-problem.inputs.url=[-u1_max -inf];
-problem.inputs.uru=[u1_max inf];
+problem.inputs.url=[-u1_max -pi/18];
+problem.inputs.uru=[u1_max pi/18];
 
 % Input constraint error bounds
 problem.inputs.uConstraintTol=[0.01 deg2rad(0.1)];

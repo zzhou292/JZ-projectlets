@@ -17,14 +17,14 @@
 
 clear all;close all;format compact;
 
-obs_data=[2 -10 0 11 -3 17 20 -10 10 -20;
-    0 -10 -10 4 10 7 -10 5 -15 15;
-    4 4 3 2 2 3 5 3 2 2]; % obstacle data is formatted as a matrix, each column is 0 
+obs_data=[2 -4 0 3 -3 7 4 -8 7.6 -8.1;
+    0 -1 1.2 5 2 1 -7 5 -4 -2.3;
+    1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5]; % obstacle data is formatted as a matrix, each column is 0 
 % xcenter,ycenter,size
-pos0_x = 0; % initial rover x location
-pos0_y = -20; % initial rover y location
-posf_x = 20; % final rover x location
-posf_y = 20; % final rover y location
+pos0_x = -5; % initial rover x location
+pos0_y = -6; % initial rover y location
+posf_x = 0; % final rover x location
+posf_y = 8; % final rover y location
 rot0 = 60;
 
 
@@ -43,10 +43,10 @@ xx=linspace(solution.T(1,1),solution.tf,100);
 
 figure
 hold on
-plot(solution.X(:,1),solution.X(:,2),'go','linewidth', 2)
+plot(solution.X(:,1),solution.X(:,2),'go','linewidth', 1)
 grid on;
-xlim([-25 25]);
-ylim([-25 25]);
+xlim([-10 10]);
+ylim([-10 10]);
 xlabel('Position x [m]');
 ylabel('Position y [m]');
 
@@ -60,5 +60,19 @@ for i = 1:num_obs
     rectangle('Position',pos,'Curvature',[1 1])
     axis equal
 end
+
+filename = 'traj_data.csv'; % Name of the CSV file to create
+fid = fopen(filename, 'w'); % Open the file for writing
+
+% Write the header row
+fprintf(fid, 'x,y\n');
+
+num_node=size(solution.X,1);
+% Write the data rows
+for i = 1:num_node
+    fprintf(fid, '%f,%f\n', solution.X(i,1), solution.X(i,2));
+end
+
+fclose(fid); % Close the file
 
 
