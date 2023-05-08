@@ -41,6 +41,7 @@ The first manual control strategy is relatively simple. Based on the images tran
 The second control method, although proprietary and few details have been disclosed by NASA, is an autonomous path planning and trajectory following control algorithm which matches the materials covered in the class. Based on the introduction provided by NASA, the ground base on earth, based on the images and data transmitted from the rover, sends a control signal containing the location of the next 'waypoint'. Then the rover, based on its own sensing capabilities using sensors such as camera and lidar, plans the route and tracking the planned trajectory. \cite{NASAweb}
 
 \subsection{Simulation Through Project Chrono}
+\label{subsec:chrono}
 Project Chrono is a multi-physics modeling and simulation infrastructure based on a platform-independent, open-source design. Project Chrono has been used widely for the simulation of autonomous vehicles and robotic systems. Project Chrono, in the past two years, received funding from NASA to provide simulation support to investigate wheel-terrain interaction of the 2024 NASA VIPER Moon Rover using different types of terra-mechanics simulation method, as shown in Figure \ref{fig:viper_chrono} and Figure \ref{fig:curiosity_chrono}. Therefore, the software package already contains multiple ready-to-deploy extraterrestrial rover models and their control interfaces. 
 
 In this project, we will develop the algorithm in Matlab, and use Project Chrono as our simulation environment. In the simulation, we will use the Soil-Contact Model (SCM) deformable terrain model to simulation soil deformation. The SCM model is a simple semi-empirical model which is built upon the original Bekker-Wong Equation, as shown in Equation \ref{equ:bekker}. A more detailed description can be found in \cite{10.1115/1.4056851}. In the Equation \ref{equ:bekker}, \(K_{c}\), \(K_{\phi}\), and n are semi-empirical parameters defining the soil properties, \(z\) is the sinkage, \(b\) is the average wheel contact width, and \(p\) is the normal pressure applied to the rover wheel (to provide normal force in the simulation).
@@ -63,6 +64,12 @@ In this project, we will develop the algorithm in Matlab, and use Project Chrono
 
 \section{Proposed Solution}
 
+The problem is dissected into two parts - trajectory generation and trajectory tracking in simulation. The first part, trajectory generation, is conducted using Imperial College London Optimal Control Software (ICLOCS 2), An Optimization Based Control package in Matlab/Simulink. The optimization trajectory generation problem simplifies the problem by reducing it to 2-D and employing simplified rover dynamics, while representing obstacles as bounding circles. After trajectory has been generated, the planned path is parsed into a .csv file consisting of 200 way points. 
+
+In the second stage, known as trajectory tracking in simulation, the Project Chrono platform is utilized. The rover's complete dynamics, encompassing various components such as the DC motors, chassis, steering mechanism, and suspension system, are accurately modeled. The simulation is structured as a multi-body dynamic problem that incorporates rigid bodies and constraints between different bodies. The terrain is simulated through a semi-empirical deformable model called the Soil-Contact Model (SCM), which is explained in detail in Section \ref{subsec:chrono}. The output trajectory obtained from the previous stage is then reconstructed into a Bézier curve, which the rover aims to pursue in the simulation. For the current problem, a PID controller is used for trajectory tracking.
+
+\subsection{Trajectory Generation}
+
 The problem is simplified into an optimal path planning and control optimization problem by assuming a square terrain with a center at (0.0, 0.0), and a fixed side length of 20 meters. Three different types of rocks with similar radius, while viewing birdeye view, are used. To further simplify the problem, a bounding circle, or what can be called a safety circle, is drawn around the rock. From a bird's eye view, looking from above, the problem environment is simplified into a 2D path planning and optimal control problem with a given square terrain, and with several circular-shaped obstacles, as shown in Figure \ref{fig:rover_path}.
 
 We employ a dynamic model of a simplified rover as shown in Equations \ref{equ:car_dyn}.
@@ -84,23 +91,42 @@ After the simplification, we assume that each obstacle has the properties shown 
 \begin{equation}
 	\label{equ:car_cons}
 	\left\{\begin{array}{@{}l@{}}
-		x_{0} = x_{start}, y_{0} = y_{start}  \\
-		x_{t_{f}} = x_{end}, y_{t_{f}} = y_{end}  \\
-		\theta_{0}=yaw_{t_{0}}  \\
-		\phi_{0} = 0 \\
-		r_{i} < (x_{i}-x_{obs_{k}})^2 + (y_{i}-y_{obs_{k}})^2  \\
-		0 \leq i \leq t_{f}, 0 \leq k \leq M \\
+		x(0) = x_{start}, y(0) = y_{start}  \\
+		x(t_{f}) = x_{end}, y(t_{f}) = y_{end}  \\
+		\theta(0) =yaw_{t_{0}}  \\
+		\phi(0) = 0 \\
+		r(k) < (x(t)-x_{obs_{k}})^2 + (y(t)-y_{obs_{k}})^2  \\
+		0 \leq t \leq t_{f}, 0 \leq k \leq M \\
 	\end{array}\right.\,.
 \end{equation}
 
-In addition to the above path constraints, an extra constraint is added to ensure on-board equipment's stability:
+In addition to the above path constraints, the vehicle dynamic and state constraints are formulated as below:
+
+\begin{equation}
+	\label{equ:car_dyn_con}
+	\left\{\begin{array}{@{}l@{}}
+		-10 \leq x(t) \leq 10, -10 \leq y(t) \leq 10  \\
+		 0 \leq v(t) \leq 3.0 \\
+		 0 \leq a(t) \leq 0.8 \\
+		 -\frac{\pi}{6} \leq \phi \leq \frac{\pi}{6} \\
+	\end{array}\right.\,.
+\end{equation}
+
+Where the position states, $x(t)$ and $y(t)$, are bounded between -10 and 10, the square terrain which we pre-defined. The magnitude of the velocity of the rover is bounded between 0.0 $m/s$ and 3.0 $m/s$, and the magnitude of the acceleration of the rover is bounded between 0.0 $\frac{m}{s^2}$ and 0.8 $\frac{m}{s^2}$. Note that the constraints for the velocity magnitude and acceleration magnitude implies that the path generated from the optimization problem considers forward movement only, and no reverse motion is considered. The max steering, $\phi$, is bounded between -30 $deg$ to 30 $deg$, or $-\frac{\pi}{6}$ and $\frac{\pi}{6}$.  
+
+An extra constraint is added to ensure on-board equipment's stability:
 
 \begin{equation}
 	\label{equ:car_stability}
 	-0.4 \leq \frac{u_{2}(t)}{l_{axes}cos^{2}(\theta(t) )} \leq 0.4 \\
 \end{equation}
 
-In the above equation, the $l_{axes}$ represents the distance between two axes of the rover. For the Viper lunar rover which is modeled in this project, the $l_{axes} = 1.4 m$
+In the above equation, the $l_{axes}$ represents the distance between two axes of the rover. For the Viper lunar rover which is modeled in this project, the $l_{axes} = 1.4 m$. In addition to the above constrains defined, a maximum final time is defined, as below:
+
+\begin{equation}
+	\label{equ:time_cons}
+	0 \leq t_{f} \leq 100 \\
+\end{equation}
 
 The objective is for rover to finish the path in minimum time, as a results, the optimal control problem is formulated as:
 
@@ -110,8 +136,6 @@ The objective is for rover to finish the path in minimum time, as a results, the
 \end{equation}
 
 
- 
-
 \begin{figure}
 \centering
     \label{fig:rover_path}
@@ -119,12 +143,38 @@ The objective is for rover to finish the path in minimum time, as a results, the
     \caption{The problem will be simplified into a 2-dimensional path planning and optimal control problem. The optimization will be solved in the 2-D space and applied and benched in the 3-D simulation.}
 \end{figure}
 
-After the optimization problem has been solved, a control input series \(u_{opt}\) and a control path series defined by \(x_{opt}\) and \(y{opt}\) are expected to be the output. However, the control input series \(u_{opt}\) will need to be post-processed in order to feed into the Chrono simulation. This is due to the fact that the simplified rover dynamic equations defined in Equation \ref{equ:car_dyn} is a significantly simplified control, by inputting steering angle and rover velocity. However, the actual rover control is defined by wheel velocity, and the steering capability is limited by the steering motor's rotational speed. For example, it is possible that the velocity input from \(u_{opt}\) jumped instantaneously from 1 to -1, while in reality, this is unlikely to happen. We expect to use two PID controllers, as defined in Equation \ref{equ:pid_ctr}, to provide path following (steering) and vehicle velocity control. As a result, a path will be created in the simulation based on \(x_{opt}\) and \(y_{opt}\), and a steering PID controller will be created for the rover to follow the path, and a speed PID controller will be used to control the rover speed.
+\subsection{Trajectory Tracking in Simulation}
+
+After the optimization problem has been solved, a control input series \(u_{opt}\) and a control path series defined by \(x_{opt}\) and \(y{opt}\) are expected to be the output. However, the control input series \(u_{opt}\) will need to be post-processed in order to feed into the Chrono simulation. This is due to the fact that the simplified rover dynamic equations defined in Equation \ref{equ:car_dyn} is a significantly simplified control, and the environment and the obstacle modeling are simplified as well. However, the actual rover control and rover dynamic response, using a high-fidelity rover dynamic modeling and simulation, depend on multiple factors, such as wheel-terrain interaction, DC motor modeling, steering and suspension mechanisms and etc. 
+
+Therefore, only the optimal path obtained from the first part, trajectory generation, is used, and the second part of the problem is formulated as trajectory tracking. The path obtained from the trajectory generation consists of 200 way points, which are reconstructed into a Bézier curve for easier evaluation and tracking. A simple PID controller is used for tracking, as shown below:
 
 \begin{equation}
-\label{equ:pid_ctr}
-    u(t) = K_{p}e(t) + K{i}\int_{0}^{t}e(\tau)d\tau+K_{d}\frac{de(t)}{dt}
+	\label{equ:pid_ctr}
+	u(t) = K_{p}e(t) + K{i}\int_{0}^{t}e(\tau)d\tau+K_{d}\frac{de(t)}{dt}
 \end{equation}
+
+The error term $e(t)$, in Equation \ref{equ:pid_ctr}, is defined as below: 
+
+\begin{equation}
+	\label{equ:pid_err}
+	\left\{\begin{array}{@{}l@{}}
+	s(t) = A_{local}^{global}(t)(m_{dist}*[1.0, 0.0, 0.0]^{T})  \\
+	t(t) = eval(s(t)) \\
+	\hat{y}(t) = A_{local}^{global}(t)([0.0, 1.0, 0.0]^{T})  \\
+	e(t) = (s(t)-t(t))*(\hat{y}(t)) \\ 
+	e(t) = clamp(e(t),-1.0, 1.0)  \\
+	\end{array}\right.\,.
+\end{equation}
+
+
+Equation \ref{equ:pid_err} involves several variables. Firstly, $m_{dist}$ denotes the lookahead distance, while $s(t)$ represents the sentinel point. Secondly, $t(t)$ refers to the target point on the Bézier curve that is in proximity to the sentinel point $s(t)$. Lastly, $\hat{y}(t)$ is a unit vector oriented towards the rover's lateral direction. Notably, the error term $e(t)$ is limited between -1 and 1, signifying the maximum left and right steering errors, respectively. Note that since in the current problem setup, the rover is moving relatively slow using a linear DC motor model with maximum rotational speed $\pi$ $rad/s$ and a stall torque of 300 $N/m$. By conducting serval experiments, it is believed that a positive K value is good enough for trajectory tracking to work relatively well.
+
+\section{Results}
+6 different obstacle arrangement has been tested and examined, the positions of the obstacles for each testing case are shown in Table X.
+
+
+
 
 
 \section{Limitation and Future Work}
