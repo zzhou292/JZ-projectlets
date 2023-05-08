@@ -1,0 +1,49 @@
+\begin{thebibliography}{1}
+
+\bibitem{NASAweb}
+K.~Rainey, ``Station astronauts remotely control planetary rover from space,''
+  2013.
+
+\bibitem{10.1115/1.4056851}
+R.~Serban, J.~Taves, and J.~Zhou, ``{Real-time Simulation of Ground Vehicles On
+  Deformable Terrain},'' {\em Journal of Computational and Nonlinear Dynamics},
+  pp.~1--10, 02 2023.
+
+\bibitem{TR-2021-07}
+Z.~Zhou, W.~Hu, R.~Serban, and D.~Negrut, ``Modeling linear dc motor in chrono
+  rover models,'' tech. rep., Simulation-Based Engineering Laboratory,
+  University of Wisconsin-Madison, 2021.
+
+\bibitem{iclocs}
+Y.~Nie, O.~Faqir, and E.~Kerrigan, ``Iclocs2: Try this optimal control problem
+  solver before you try the rest,'' pp.~336--336, 09 2018.
+
+\bibitem{example-parallel}
+ICLOC2, ``{Example:} parallel parking.''
+  \url{http://www.ee.ic.ac.uk/ICLOCS/ExampleParallelParking.html}, 2023.
+
+\bibitem{sce-1}
+Z.~Zhou, ``{Viper} {R}over optimal path planning and obstacle avoidance using
+  iclocs - scenario 1.'' Simulation-Based Engineering Laboratory, University of
+  Wisconsin-Madison,
+  \url{https://uwmadison.box.com/s/x5ygp8wax9ljo5iwoknrqyok4mpf8b5a}, 2023.
+
+\bibitem{sce-2}
+Z.~Zhou, ``{Viper} {R}over optimal path planning and obstacle avoidance using
+  iclocs - scenario 2.'' Simulation-Based Engineering Laboratory, University of
+  Wisconsin-Madison,
+  \url{https://uwmadison.box.com/s/pyl3hq6nhgo4vosjjv57co34zbe4jvc3}, 2023.
+
+\bibitem{sce-3}
+Z.~Zhou, ``{Viper} {R}over optimal path planning and obstacle avoidance using
+  iclocs - scenario 3.'' Simulation-Based Engineering Laboratory, University of
+  Wisconsin-Madison,
+  \url{https://uwmadison.box.com/s/llk4madfc9sowhn9oldv1zqfnjqpw9fz}, 2023.
+
+\bibitem{sce-4}
+Z.~Zhou, ``{Viper} {R}over optimal path planning and obstacle avoidance using
+  iclocs - scenario 4.'' Simulation-Based Engineering Laboratory, University of
+  Wisconsin-Madison,
+  \url{https://uwmadison.box.com/s/r1l5kp7lqrrn9gi4ig588zdvndr2jx0b}, 2023.
+
+\end{thebibliography}
