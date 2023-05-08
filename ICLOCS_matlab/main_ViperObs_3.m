@@ -17,15 +17,15 @@
 
 clear all;close all;format compact;
 
-obs_data=[2 -4 0 3 -3 7 4 -8 7.6 -8.1;
-    0 -1 1.2 5 2 1 -7 5 -4 -2.3;
-    1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5]; % obstacle data is formatted as a matrix, each column is 0 
+obs_data=[5 0.2 0 6.4 -3.8 3.5 -2.8 -8 2.8 -7.2;
+    -1.4 4.8 0.0 4.5 -2 3 4 8.0 -3.7 2.3;
+    1.7 1.7 1.7 1.7 1.7 1.7 1.7 1.7 1.7 1.7]; % obstacle data is formatted as a matrix, each column is 0 
 % xcenter,ycenter,size
-pos0_x = -5; % initial rover x location
-pos0_y = -6; % initial rover y location
+pos0_x = -6; % initial rover x location
+pos0_y = -7; % initial rover y location
 posf_x = 0; % final rover x location
-posf_y = 8; % final rover y location
-rot0 = 60;
+posf_y = 8.0; % final rover y location
+rot0 = 110;
 
 
 [problem,guess]=ViperObs(obs_data, pos0_x, pos0_y, posf_x, posf_y, rot0);          % Fetch the problem definition

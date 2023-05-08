@@ -79,7 +79,7 @@ guess.t0=0;
 
 % Final time. Let tf_min=tf_max if tf is fixed.
 problem.time.tf_min=0;     
-problem.time.tf_max=100; 
+problem.time.tf_max=300; 
 guess.tf=20;
 
 % Parameters bounds. pl=< p <=pu
