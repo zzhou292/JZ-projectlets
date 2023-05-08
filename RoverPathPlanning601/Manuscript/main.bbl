@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{NASAweb}
 K.~Rainey, ``Station astronauts remotely control planetary rover from space,''
@@ -21,6 +21,10 @@ Y.~Nie, O.~Faqir, and E.~Kerrigan, ``Iclocs2: Try this optimal control problem
 \bibitem{example-parallel}
 ICLOC2, ``{Example:} parallel parking.''
   \url{http://www.ee.ic.ac.uk/ICLOCS/ExampleParallelParking.html}, 2023.
+
+\bibitem{Github}
+Z.~Zhou, ``Jz-projectlets.'' \url{https://github.com/zzhou292/JZ-projectlets},
+  2023.
 
 \bibitem{sce-1}
 Z.~Zhou, ``{Viper} {R}over optimal path planning and obstacle avoidance using
