@@ -145,7 +145,7 @@ std::shared_ptr<ChMaterialSurface> CustomWheelMaterial(ChContactMethod contact_m
 int main(int argc, char* argv[]) {
     GetLog() << "Copyright (c) 2017 projectchrono.org\nChrono version: " << CHRONO_VERSION << "\n\n";
 
-    std::string path_file = GetChronoDataFile("rover_obs_1.txt");
+    std::string path_file = GetChronoDataFile("rover_obs_2.txt");
     std::shared_ptr<ChBezierCurve> path = ChBezierCurve::read(path_file, false);
     auto tracker = chrono_types::make_shared<ChBezierCurveTracker>(path);
 
@@ -176,8 +176,8 @@ int main(int argc, char* argv[]) {
         viper.SetWheelContactMaterial(CustomWheelMaterial(ChContactMethod::NSC));
 
     ChQuaternion<> rot;
-    rot.Q_from_AngZ(CH_C_PI / 3);
-    viper.Initialize(ChFrame<>(ChVector<>(-5, -6, -0.2), rot));
+    rot.Q_from_AngZ(CH_C_PI / 1.63);
+    viper.Initialize(ChFrame<>(ChVector<>(-6, -7, -0.2), rot));
 
     // Get wheels and bodies to set up SCM patches
     auto Wheel_1 = viper.GetWheel(ViperWheelID::V_LF)->GetBody();
@@ -202,11 +202,11 @@ int main(int argc, char* argv[]) {
     };
 
     std::vector<ChVector<>> rock_pos = {
-        ChVector<>(2.0, 0.0, -0.1),  ChVector<>(-4.0, -1, -0.1),   //
-        ChVector<>(0.0, 1.2, -0.1),  ChVector<>(3.0, 5.0, -0.1),   //
-        ChVector<>(-3.0, 2.0, -0.1), ChVector<>(7.0, 1.0, -0.1),   //
-        ChVector<>(4.0, -7.0, -0.1), ChVector<>(-8.0, 5, -0.1),    //
-        ChVector<>(7.6, -4.0, -0.1), ChVector<>(-8.1, -2.3, -0.1)  //
+        ChVector<>(3.0, -2.0, -0.1),  ChVector<>(-3.0, 1, -0.1),    //
+        ChVector<>(0.0, -0.2, -0.1),  ChVector<>(8.0, -2.5, -0.1),  //
+        ChVector<>(-3.0, -2.0, -0.1), ChVector<>(5.0, 3.0, -0.1),   //
+        ChVector<>(3.2, 4.0, -0.1),   ChVector<>(-8.0, 7, -0.1),    //
+        ChVector<>(5.8, 6.7, -0.1),   ChVector<>(-7.2, -2.3, -0.1)  //
     };
 
     double rock_density = 8000;
