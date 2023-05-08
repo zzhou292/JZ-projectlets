@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.1.1)  7 MAY 2023 18:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.1.1)  8 MAY 2023 01:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -466,24 +466,113 @@ File: Images/rover_path.png Graphic file (type png)
 Package pdftex.def Info: Images/rover_path.png  used on input line 142.
 (pdftex.def)             Requested size: 377.0444pt x 276.79738pt.
  [3] [4 <./Images/rover_path.png>]
-(./main.bbl) [5] (./main.aux)
 
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 176.
 
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: E9673CA5BD003172925E8C3B428C5452;1569
-(rerunfilecheck)             After:  D681CE6A4835A88489F1B3E25FD42F6B;1648.
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 190.
+
+<Images/iclocs/traj_1.png, id=107, 421.575pt x 316.18124pt>
+File: Images/iclocs/traj_1.png Graphic file (type png)
+<use Images/iclocs/traj_1.png>
+Package pdftex.def Info: Images/iclocs/traj_1.png  used on input line 214.
+(pdftex.def)             Requested size: 199.60895pt x 149.71002pt.
+<Images/iclocs/traj_2.png, id=108, 421.575pt x 316.18124pt>
+File: Images/iclocs/traj_2.png Graphic file (type png)
+<use Images/iclocs/traj_2.png>
+Package pdftex.def Info: Images/iclocs/traj_2.png  used on input line 217.
+(pdftex.def)             Requested size: 199.60895pt x 149.71002pt.
+<Images/iclocs/traj_3.png, id=109, 421.575pt x 316.18124pt>
+File: Images/iclocs/traj_3.png Graphic file (type png)
+<use Images/iclocs/traj_3.png>
+Package pdftex.def Info: Images/iclocs/traj_3.png  used on input line 220.
+(pdftex.def)             Requested size: 199.60895pt x 149.71002pt.
+<Images/iclocs/traj_4.png, id=110, 421.575pt x 316.18124pt>
+File: Images/iclocs/traj_4.png Graphic file (type png)
+<use Images/iclocs/traj_4.png>
+Package pdftex.def Info: Images/iclocs/traj_4.png  used on input line 223.
+(pdftex.def)             Requested size: 199.60895pt x 149.71002pt.
+<Images/screenshot/1.png, id=111, 1927.2pt x 1084.05pt>
+File: Images/screenshot/1.png Graphic file (type png)
+<use Images/screenshot/1.png>
+Package pdftex.def Info: Images/screenshot/1.png  used on input line 233.
+(pdftex.def)             Requested size: 199.60895pt x 112.26546pt.
+<Images/screenshot/2.png, id=113, 1927.2pt x 1084.05pt>
+File: Images/screenshot/2.png Graphic file (type png)
+<use Images/screenshot/2.png>
+Package pdftex.def Info: Images/screenshot/2.png  used on input line 236.
+(pdftex.def)             Requested size: 199.60895pt x 112.26546pt.
+<Images/screenshot/3.png, id=115, 1927.2pt x 1084.05pt>
+File: Images/screenshot/3.png Graphic file (type png)
+<use Images/screenshot/3.png>
+Package pdftex.def Info: Images/screenshot/3.png  used on input line 239.
+(pdftex.def)             Requested size: 199.60895pt x 112.26546pt.
+<Images/screenshot/4.png, id=117, 1927.2pt x 1084.05pt>
+File: Images/screenshot/4.png Graphic file (type png)
+<use Images/screenshot/4.png>
+Package pdftex.def Info: Images/screenshot/4.png  used on input line 242.
+(pdftex.def)             Requested size: 199.60895pt x 112.26546pt.
+<Images/traj/1.png, id=119, 315.0972pt x 265.4718pt>
+File: Images/traj/1.png Graphic file (type png)
+<use Images/traj/1.png>
+Package pdftex.def Info: Images/traj/1.png  used on input line 251.
+(pdftex.def)             Requested size: 199.60895pt x 168.17169pt.
+<Images/traj/2.png, id=120, 316.0608pt x 265.4718pt>
+File: Images/traj/2.png Graphic file (type png)
+<use Images/traj/2.png>
+Package pdftex.def Info: Images/traj/2.png  used on input line 254.
+(pdftex.def)             Requested size: 199.60895pt x 167.66534pt.
+<Images/traj/3.png, id=121, 315.579pt x 265.4718pt>
+File: Images/traj/3.png Graphic file (type png)
+<use Images/traj/3.png>
+Package pdftex.def Info: Images/traj/3.png  used on input line 257.
+(pdftex.def)             Requested size: 199.60895pt x 167.91243pt.
+<Images/traj/4.png, id=122, 321.3606pt x 265.4718pt>
+File: Images/traj/4.png Graphic file (type png)
+<use Images/traj/4.png>
+Package pdftex.def Info: Images/traj/4.png  used on input line 260.
+(pdftex.def)             Requested size: 199.60895pt x 164.89056pt.
+<Images/data/1.png, id=123, 389.2944pt x 290.0436pt>
+File: Images/data/1.png Graphic file (type png)
+<use Images/data/1.png>
+Package pdftex.def Info: Images/data/1.png  used on input line 269.
+(pdftex.def)             Requested size: 199.60895pt x 148.72131pt.
+<Images/data/2.png, id=124, 389.2944pt x 290.0436pt>
+File: Images/data/2.png Graphic file (type png)
+<use Images/data/2.png>
+Package pdftex.def Info: Images/data/2.png  used on input line 272.
+(pdftex.def)             Requested size: 199.60895pt x 148.72131pt.
+<Images/data/3.png, id=125, 389.2944pt x 290.0436pt>
+File: Images/data/3.png Graphic file (type png)
+<use Images/data/3.png>
+Package pdftex.def Info: Images/data/3.png  used on input line 275.
+(pdftex.def)             Requested size: 199.60895pt x 148.72131pt.
+<Images/data/4.png, id=126, 389.2944pt x 290.0436pt>
+File: Images/data/4.png Graphic file (type png)
+<use Images/data/4.png>
+Package pdftex.def Info: Images/data/4.png  used on input line 278.
+(pdftex.def)             Requested size: 199.60895pt x 148.72131pt.
+(./main.bbl [5] [6 <./Images/iclocs/traj_1.png (PNG copy)> <./Images/iclocs/tra
+j_2.png (PNG copy)> <./Images/iclocs/traj_3.png (PNG copy)> <./Images/iclocs/tr
+aj_4.png (PNG copy)>]) [7 <./Images/screenshot/1.png (PNG copy)> <./Images/scre
+enshot/2.png (PNG copy)> <./Images/screenshot/3.png (PNG copy)> <./Images/scree
+nshot/4.png (PNG copy)>] [8 <./Images/traj/1.png (PNG copy)> <./Images/traj/2.p
+ng (PNG copy)> <./Images/traj/3.png (PNG copy)> <./Images/traj/4.png (PNG copy)
+>] [9 <./Images/data/1.png (PNG copy)> <./Images/data/2.png (PNG copy)> <./Imag
+es/data/3.png (PNG copy)> <./Images/data/4.png (PNG copy)>] (./main.aux)
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: BC2E53FB26C7A66F343FB777B7EA9224;1463.
  ) 
 Here is how much of TeX's memory you used:
- 10661 strings out of 478287
- 168314 string characters out of 5849290
- 491949 words of memory out of 5000000
- 28688 multiletter control sequences out of 15000+600000
- 475323 words of font info for 49 fonts, out of 8000000 for 9000
+ 10839 strings out of 478287
+ 171825 string characters out of 5849290
+ 501616 words of memory out of 5000000
+ 28824 multiletter control sequences out of 15000+600000
+ 475491 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,8n,63p,837b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,9n,63p,837b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dis
@@ -497,12 +586,13 @@ fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/t
 exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf/fonts/type1/pub
-lic/cm-super/sfrm1000.pfb>
-Output written on main.pdf (5 pages, 2299352 bytes).
+ist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/public/cm
+-super/sfrm1000.pfb>
+Output written on main.pdf (9 pages, 7893667 bytes).
 PDF statistics:
- 187 PDF objects out of 1000 (max. 8388607)
- 142 compressed objects within 2 object streams
- 32 named destinations out of 1000 (max. 500000)
- 88 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 273 PDF objects out of 1000 (max. 8388607)
+ 205 compressed objects within 3 object streams
+ 61 named destinations out of 1000 (max. 500000)
+ 168 words of extra memory for PDF output out of 10000 (max. 10000000)
 

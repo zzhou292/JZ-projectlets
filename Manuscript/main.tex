@@ -16,7 +16,7 @@
 \usepackage{graphicx}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-\title{Control Policy Design for Path Planning and Obstacle Avoidance Using Adpative Model Predictive Control of a Four-Wheel Based Extraterrestrial Rover}
+\title{Control Policy Design for Path Planning and Obstacle Avoidance Using Optimal Trajectory Generation of a Four-Wheel Based Extraterrestrial Rover}
 \author{Jason Zhou\{zzhou292@wisc.edu\}, Yulong Yue\{yyue32@wisc.edu\}}
 
 \begin{document}
@@ -171,41 +171,120 @@ The error term $e(t)$, in Equation \ref{equ:pid_ctr}, is defined as below:
 Equation \ref{equ:pid_err} involves several variables. Firstly, $m_{dist}$ denotes the lookahead distance, while $s(t)$ represents the sentinel point. Secondly, $t(t)$ refers to the target point on the Bézier curve that is in proximity to the sentinel point $s(t)$. Lastly, $\hat{y}(t)$ is a unit vector oriented towards the rover's lateral direction. Notably, the error term $e(t)$ is limited between -1 and 1, signifying the maximum left and right steering errors, respectively. Note that since in the current problem setup, the rover is moving relatively slow using a linear DC motor model with maximum rotational speed $\pi$ $rad/s$ and a stall torque of 300 $N/m$. By conducting serval experiments, it is believed that a positive K value is good enough for trajectory tracking to work relatively well.
 
 \section{Results}
-6 different obstacle arrangement has been tested and examined, the positions of the obstacles for each testing case are shown in Table X.
+4 different obstacle arrangement has been tested and examined, the positions of the obstacles, and the scenario parameters for each testing case are shown in Table \ref{tab:sce_setup} and Table \ref{tab:sce_obs}. Note that 3 rock geometries are used and they have similar geometry. Therefore, for simplification, a 1.5-m radius is used for all obstacle geometries.
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		& \textbf{Initial Rover Position} & \textbf{Initial Rover Yaw Angle} & \textbf{Final Rover Position} \\ \hline
+		\textbf{Scenario 1} & {[}-5.0, -6.0{]}                & 60 deg                           & {[}0.0, 8.0{]}                \\ \hline
+		\textbf{Scenario 2} & {[}-6.0, -7.0{]}                & 110 deg                          & {[}8.0, 4.8{]}                \\ \hline
+		\textbf{Scenario 3} & {[}-6.0, -7.0{]}                & 110 deg                          & {[}0.0, 8.0{]}                \\ \hline
+		\textbf{Scenario 4} & {[}-5.0, 4.0{]}                 & 30 deg                           & {[}9.0, -8.0{]}               \\ \hline
+	\end{tabular}
+	\caption{Rover's initial position, final position, and initial yaw angle for each scenario.}
+	\label{tab:sce_setup}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|c|l|l|l|l|l|}
+		\hline
+		& \multicolumn{1}{c|}{\textbf{Obs 1}}  & \multicolumn{1}{c|}{\textbf{Obs 2}}   & \multicolumn{1}{c|}{\textbf{Obs 3}}  & \textbf{Obs 4}  & \textbf{Obs 5}   \\ \hline
+		\textbf{Scenario 1}             & \multicolumn{1}{c|}{{[}2.0, 0.0{]}}  & \multicolumn{1}{c|}{{[}-4.0, -1.0{]}} & \multicolumn{1}{c|}{{[}0.0, 1.2{]}}  & {[}3.0, 5.0{]}  & {[}-3.0, 2.0{]}  \\ \hline
+		\textbf{Scenario 2}             & \multicolumn{1}{c|}{{[}3.0, -2.0{]}} & \multicolumn{1}{c|}{{[}-3.0, 1.0{]}}  & \multicolumn{1}{c|}{{[}0.0, -0.2{]}} & {[}8.0, -2.5{]} & {[}-3.0, -2.0{]} \\ \hline
+		\textbf{Scenario 3}             & \multicolumn{1}{c|}{{[}5.0, -1.4{]}} & \multicolumn{1}{c|}{{[}0.2, 4.8{]}}   & \multicolumn{1}{c|}{{[}0.0, 0.0{]}}  & {[}6.4, 4.5{]}  & {[}-3.8, -2.0{]} \\ \hline
+		\textbf{Scenario 4}             & \multicolumn{1}{c|}{{[}3.0, -3.4{]}} & \multicolumn{1}{c|}{{[}-5.2, -7.8{]}} & \multicolumn{1}{c|}{{[}0.0, 0.8{]}}  & {[}7.4, -1.3{]} & {[}-6.8, 2.0{]}  \\ \hline
+		\multicolumn{1}{|l|}{\textbf{}} & \textbf{Obs 6}                       & \textbf{Obs 7}                        & \textbf{Obs 8}                       & \textbf{Obs 9}  & \textbf{Obs 10}  \\ \hline
+		\textbf{Scenario 1}             & {[}7.0, 1.0{]}                       & {[}4.0, -7.0{]}                       & {[}-8.0, 5.0{]}                      & {[}7.6, -4.0{]} & {[}-8.1, -2.3{]} \\ \hline
+		\textbf{Scenario 2}             & {[}5.0, 3.0{]}                       & {[}3.2, 4.0{]}                        & {[}-8.0, 7.0{]}                      & {[}5.8, 6.7{]}  & {[}-7.2, -2.3{]} \\ \hline
+		\textbf{Scenario 3}             & {[}3.5, 3.0{]}                       & {[}-2.8, 4.0{]}                       & {[}-8.0, 8.0{]}                      & {[}2.8, -3.7{]} & {[}-7.2, 2.3{]}  \\ \hline
+		\textbf{Scenario 4}             & {[}1.9, -7.1{]}                      & {[}6.8, 4.0{]}                        & {[}6.9, 7.0{]}                       & {[}-3.8, 0.0{]} & {[}-7.2, 6.3{]}  \\ \hline
+	\end{tabular}
+	\caption{Obstacle setup for each scenario. }
+	\label{tab:sce_obs}
+\end{table}
 
 
+\begin{figure}
+	\centering     %%% not \center
+	\subfigure[Scenario 1]{
+		\label{fig:traj_1}
+		\includegraphics[width=0.45\textwidth]{Images/iclocs/traj_1.png}}
+	\subfigure[Scenario 2]{
+		\label{fig:traj_2}
+		\includegraphics[width=0.45\textwidth]{Images/iclocs/traj_2.png}}
+	\subfigure[Scenario 3]{
+		\label{fig:traj_3}
+		\includegraphics[width=0.45\textwidth]{Images/iclocs/traj_3.png}}
+	\subfigure[Scenario 4]{
+		\label{fig:traj_4}
+		\includegraphics[width=0.45\textwidth]{Images/iclocs/traj_4.png}}
+	
+	\caption{Trajectories generated by ICLOCS. In the each figure, the green curve is the optimal trajectory and each circle represents the bounding circle of each obstacle. }
+\end{figure}
+
+
+\begin{figure}
+	\centering     %%% not \center
+	\subfigure[Scenario 1 \cite{sce-1}]{
+		\label{fig:screen_1}
+		\includegraphics[width=0.45\textwidth]{Images/screenshot/1.png}}
+	\subfigure[Scenario 2 \cite{sce-2}]{
+		\label{fig:screen_2}
+		\includegraphics[width=0.45\textwidth]{Images/screenshot/2.png}}
+	\subfigure[Scenario 3 \cite{sce-3}]{
+		\label{fig:screen_3}
+		\includegraphics[width=0.45\textwidth]{Images/screenshot/3.png}}
+	\subfigure[Scenario 4 \cite{sce-4}]{
+		\label{fig:screen_4}
+		\includegraphics[width=0.45\textwidth]{Images/screenshot/4.png}}
+	
+	\caption{Screenshot of the simulation for each scenario. Full simulation animation can be found in the corresponding citation entry. }
+\end{figure}
+
+\begin{figure}
+	\centering     %%% not \center
+	\subfigure[Scenario 1]{
+		\label{fig:traj_compare_1}
+		\includegraphics[width=0.45\textwidth]{Images/traj/1.png}}
+	\subfigure[Scenario 2]{
+		\label{fig:traj_compare_2}
+		\includegraphics[width=0.45\textwidth]{Images/traj/2.png}}
+	\subfigure[Scenario 3]{
+		\label{fig:traj_compare_3}
+		\includegraphics[width=0.45\textwidth]{Images/traj/3.png}}
+	\subfigure[Scenario 4]{
+		\label{fig:traj_compare_4}
+		\includegraphics[width=0.45\textwidth]{Images/traj/4.png}}
+	
+	\caption{Comparison between target trajectory and the actual simulation path for each scenario. Note that the trajectory tracking in enforced by using a PID controller.}
+\end{figure}
+
+\begin{figure}
+	\centering     %%% not \center
+	\subfigure[Scenario 1]{
+		\label{fig:data_1}
+		\includegraphics[width=0.45\textwidth]{Images/data/1.png}}
+	\subfigure[Scenario 2]{
+		\label{fig:data_2}
+		\includegraphics[width=0.45\textwidth]{Images/data/2.png}}
+	\subfigure[Scenario 3]{
+		\label{fig:data_3}
+		\includegraphics[width=0.45\textwidth]{Images/data/3.png}}
+	\subfigure[Scenario 4]{
+		\label{fig:data_4}
+		\includegraphics[width=0.45\textwidth]{Images/data/4.png}}
+	
+	\caption{Rover's speed profile and steering angle input in the simulation for each scenario. }
+\end{figure}
 
 
 
 \section{Limitation and Future Work}
 
 We assume the control algorithm can obtain privileged information, such as the size of the terrain, the exact locations and the sizes of the obstacles, and the rover location due to the time limitation of the course project. However, we plan to extend the research focus to replicate what happens in real-life engineering - the environment, obstacles information, and rover information are all acquired through sensing, such as camera sensors, lidar sensors, radar sensors, and potentially position sensors. As Project Chrono can simulate sensor data, such as shown in Figure \ref{fig:curiosity_chrono}, in the near future, we will conduct research to reconstruct the 3d environment and obtain the terrain and obstacle data from the "real" environment. 
- 
-\section{Proposed Milestone Deadline}
-
-
-\begin{center}
-\begin{tabularx}{0.8\textwidth} { 
-  | >{\raggedright\arraybackslash}X 
-  | >{\centering\arraybackslash}X 
-  | >{\raggedleft\arraybackslash}X | }
- \hline
- \textbf{Date} & \textbf{Item}  \\
- \hline
- 03/31/2023  & Algorithm Implementation in Matlab \\
-\hline
-04/10/2023 & Building the network communication between Matlab and Project Chrono \\
-\hline
-04/21/2023 & Aetting up the simulation environment in Project Chrono \\
-\hline
-04/28/2023 & Building of the control interface to provide waypoint commands to the controller \\
-\hline
-05/05/2023 & Final testing with Matlab control and Project Chrono simulation \\
-\hline
-05/12/2023 & Final deliverable and report \\
-\hline
-\end{tabularx}
-\end{center}
 
 \bibliographystyle{ieeetr}
 \bibliography{sample}

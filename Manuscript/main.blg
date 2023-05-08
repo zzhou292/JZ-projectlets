@@ -10,13 +10,13 @@ Reallocated global_strs (elt_size=200001) to 10 items from 0.
 Reallocated glb_str_end (elt_size=8) to 10 items from 0.
 Database file #1: sample.bib
 Warning--entry type for "NASAweb" isn't style-file defined
---line 11 of file sample.bib
+--line 41 of file sample.bib
 
 Here's how much of BibTeX's memory you used:
- Cites:                 2 out of 750
- Fields:               35 out of 5000
- Hash table:       199872 out of 200000
- Strings:             487 out of 200000
- Free string pool:   3722 out of 65000
+ Cites:                 6 out of 750
+ Fields:              127 out of 5000
+ Hash table:       199868 out of 200000
+ Strings:             500 out of 200000
+ Free string pool:   4659 out of 65000
  Wizard functions:   1876 out of 3000
 (There was 1 warning)
