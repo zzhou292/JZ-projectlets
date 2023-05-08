@@ -9,6 +9,19 @@ R.~Serban, J.~Taves, and J.~Zhou, ``{Real-time Simulation of Ground Vehicles On
   Deformable Terrain},'' {\em Journal of Computational and Nonlinear Dynamics},
   pp.~1--10, 02 2023.
 
+\bibitem{TR-2021-07}
+Z.~Zhou, W.~Hu, R.~Serban, and D.~Negrut, ``Modeling linear dc motor in chrono
+  rover models,'' tech. rep., Simulation-Based Engineering Laboratory,
+  University of Wisconsin-Madison, 2021.
+
+\bibitem{iclocs}
+Y.~Nie, O.~Faqir, and E.~Kerrigan, ``Iclocs2: Try this optimal control problem
+  solver before you try the rest,'' pp.~336--336, 09 2018.
+
+\bibitem{example-parallel}
+ICLOC2, ``{Example:} parallel parking.''
+  \url{http://www.ee.ic.ac.uk/ICLOCS/ExampleParallelParking.html}, 2023.
+
 \bibitem{sce-1}
 Z.~Zhou, ``{Viper} {R}over optimal path planning and obstacle avoidance using
   iclocs - scenario 1.'' Simulation-Based Engineering Laboratory, University of

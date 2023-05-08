@@ -24,7 +24,7 @@
 
 
 \section{Research Problem Statement}
-In this project, we proposed to design a rover path planning and following algorithm to provide an extraterrestrial rover navigation strategy. We propose to solve the problem by solving a closed-loop motion planning and control problem based on optimization with constraints. The control strategy will be benched in a simulated environment in Project Chrono. For the project, we will assume privileged information, such as locations, sizes, and shapes of the obstacles. Also, we will assume the environment is limited and fixed. 
+In this project, we proposed to design a rover path planning and following algorithm to provide an extraterrestrial rover navigation strategy. We propose to solve the problem by solving a closed-loop motion planning and control problem based on optimization with constraints. The control strategy will be benched in a simulated environment in Project Chrono. For the project, we will assume privileged information, such as locations, sizes, and shapes of the obstacles. Also, we will assume the environment is limited and fixed. The problem can be extended in the future to include sensing capabilities.
 
 
 \section{Background}
@@ -44,11 +44,23 @@ The second control method, although proprietary and few details have been disclo
 \label{subsec:chrono}
 Project Chrono is a multi-physics modeling and simulation infrastructure based on a platform-independent, open-source design. Project Chrono has been used widely for the simulation of autonomous vehicles and robotic systems. Project Chrono, in the past two years, received funding from NASA to provide simulation support to investigate wheel-terrain interaction of the 2024 NASA VIPER Moon Rover using different types of terra-mechanics simulation method, as shown in Figure \ref{fig:viper_chrono} and Figure \ref{fig:curiosity_chrono}. Therefore, the software package already contains multiple ready-to-deploy extraterrestrial rover models and their control interfaces. 
 
-In this project, we will develop the algorithm in Matlab, and use Project Chrono as our simulation environment. In the simulation, we will use the Soil-Contact Model (SCM) deformable terrain model to simulation soil deformation. The SCM model is a simple semi-empirical model which is built upon the original Bekker-Wong Equation, as shown in Equation \ref{equ:bekker}. A more detailed description can be found in \cite{10.1115/1.4056851}. In the Equation \ref{equ:bekker}, \(K_{c}\), \(K_{\phi}\), and n are semi-empirical parameters defining the soil properties, \(z\) is the sinkage, \(b\) is the average wheel contact width, and \(p\) is the normal pressure applied to the rover wheel (to provide normal force in the simulation).
+In this project, we will develop the algorithm in Matlab, and use Project Chrono as our simulation environment. In the simulation, we will use the Soil-Contact Model (SCM) deformable terrain model to simulation soil deformation. The SCM model is a simple semi-empirical model which is built upon the original Bekker-Wong Equation for normal force computation, as shown in Equation \ref{equ:bekker}, and Janosi-Hanamoto equation for tangential stress computation. A more detailed description can be found in \cite{10.1115/1.4056851}. In the Equation \ref{equ:bekker}, \(K_{c}\), \(K_{\phi}\), and n are semi-empirical parameters defining the soil properties, \(z\) is the sinkage, \(b\) is the average wheel contact width, and \(p\) is the normal pressure applied to the rover wheel (to provide normal force in the simulation). Note that the SCM is only included for high-fidelity terrain simulation purposes, but not included in the optimal path planning. 
 
 \begin{equation}\label{equ:bekker}
 	p = \left( \frac{K_c}{b} + K_\phi \right) z^n \, .
 \end{equation}
+
+\begin{equation}
+	\label{equ:janosi}
+	\left\{\begin{array}{@{}l@{}}
+		t = t_{max}(1-exp^{-\frac{j}{k}}) \\
+		t_{max}=c+ptan(\phi) \\
+	\end{array}\right.\,.
+\end{equation}
+
+Note that in Equation \ref{equ:bekker}, $p$ is the mean probe contact pressure, $b$ is the width of the footprint, $z$ is the sinkage of the footprint, and $K_{\phi]}$, $K_{c}$, and $n$ are semi-empirical soil parameters based on curve-fitting. In Equation \ref{equ:janosi}, $j$ is the accumulated shear, $c$ represents cohesion, $\phi$ represents internal friction angle based on Mohr Theory, and $k$ is the Janosi parameter.
+
+The Viper rover model designed in Project Project Chrono consists of an active suspension system, 4 independently controlled DC motors \cite{TR-2021-07} and 4 independently controlled steering motors. Within the scope of the current project, no suspension manipulation and control is used and the steering is achieved by a 4-wheel steering mechanism. 
 
 \begin{figure}
 	\centering     %%% not \center
@@ -64,7 +76,7 @@ In this project, we will develop the algorithm in Matlab, and use Project Chrono
 
 \section{Proposed Solution}
 
-The problem is dissected into two parts - trajectory generation and trajectory tracking in simulation. The first part, trajectory generation, is conducted using Imperial College London Optimal Control Software (ICLOCS 2), An Optimization Based Control package in Matlab/Simulink. The optimization trajectory generation problem simplifies the problem by reducing it to 2-D and employing simplified rover dynamics, while representing obstacles as bounding circles. After trajectory has been generated, the planned path is parsed into a .csv file consisting of 200 way points. 
+The problem is dissected into two parts - trajectory generation and trajectory tracking in simulation. The first part, trajectory generation, is conducted using Imperial College London Optimal Control Software (ICLOCS 2), An Optimization Based Control package in Matlab/Simulink \cite{iclocs}. The optimization trajectory generation problem simplifies the problem by reducing it to 2-D and employing simplified rover dynamics, while representing obstacles as bounding circles. After trajectory has been generated, the planned path is parsed into a .csv file consisting of 200 way points. 
 
 In the second stage, known as trajectory tracking in simulation, the Project Chrono platform is utilized. The rover's complete dynamics, encompassing various components such as the DC motors, chassis, steering mechanism, and suspension system, are accurately modeled. The simulation is structured as a multi-body dynamic problem that incorporates rigid bodies and constraints between different bodies. The terrain is simulated through a semi-empirical deformable model called the Soil-Contact Model (SCM), which is explained in detail in Section \ref{subsec:chrono}. The output trajectory obtained from the previous stage is then reconstructed into a Bézier curve, which the rover aims to pursue in the simulation. For the current problem, a PID controller is used for trajectory tracking.
 
@@ -72,7 +84,7 @@ In the second stage, known as trajectory tracking in simulation, the Project Chr
 
 The problem is simplified into an optimal path planning and control optimization problem by assuming a square terrain with a center at (0.0, 0.0), and a fixed side length of 20 meters. Three different types of rocks with similar radius, while viewing birdeye view, are used. To further simplify the problem, a bounding circle, or what can be called a safety circle, is drawn around the rock. From a bird's eye view, looking from above, the problem environment is simplified into a 2D path planning and optimal control problem with a given square terrain, and with several circular-shaped obstacles, as shown in Figure \ref{fig:rover_path}.
 
-We employ a dynamic model of a simplified rover as shown in Equations \ref{equ:car_dyn}.
+We employ a dynamic model of a simplified rover as shown in Equations \ref{equ:car_dyn}. This model is a 2-wheel steering car model migrated and modified from an example problem presented on ICLOCS website \cite{example-parallel}. Due to the simplification nature of this dynamic model, the sim-2-real gap needs to be recognized. 
 
 \begin{equation}
 \label{equ:car_dyn}
@@ -86,7 +98,9 @@ We employ a dynamic model of a simplified rover as shown in Equations \ref{equ:c
   \end{array}\right.\,.
 \end{equation}
 
-After the simplification, we assume that each obstacle has the properties shown in Equation \ref{equ:car_cons}, in which \(x_{obs_{k}}\) and \(y_{obs_{k}}\) represent the location of the k'th obstacle's bounding circle, and \(r_{obs_{k}}\) represent the radius of the bounding circle of the k'th obstacle. If we assume the entire time domain of the problem is $t_{f}$, and there are M obstacles presented in the environment. Assuming the starting location of the rover is \([\) \(x_{start}\), \(y_{start}\) \(]\), the given target location is \([\) \(x_{end}\), \(y_{end}\) \(]\), the initial rover yaw angle is $yaw_{t_{0}}$, and the initial rover steering angle $0$. We formulate the initial condition, terminal condition, and path constraint for the optimal control problem: 
+In Equation \ref{equ:car_dyn}, $x(t)$ and $y(t)$ are the rover position at time $t$, $v(t)$ is the rover velocity at time $t$, and $a(t)$ is the rover acceleration at time $t$. $\theta(t)$ is the rover yaw angle in the global frame, and $\phi(t)$ is the steering angle of the rover. The two inputs, $u1(t)$ and $u2(t)$, control the acceleration and the rate of steering angle change respectively. 
+
+After the simplification, we assume that each obstacle has the properties shown in Equation \ref{equ:car_cons}, in which \(x_{obs_{k}}\) and \(y_{obs_{k}}\) represent the location of the k'th obstacle's bounding circle, and \(r_{obs_{k}}\) represent the radius of the bounding circle of the k'th obstacle. Note that since in the algorithm the geometry of the rover chassis is not taken into consideration, the decision of the bounding circle's radius needs to be further expanded by at least rover's half width. If we assume the entire time domain of the problem is $t_{f}$, and there are M obstacles presented in the environment. Assuming the starting location of the rover is \([\) \(x_{start}\), \(y_{start}\) \(]\), the given target location is \([\) \(x_{end}\), \(y_{end}\) \(]\), the initial rover yaw angle is $yaw_{t_{0}}$, and the initial rover steering angle $0$. We formulate the initial condition, terminal condition, and path constraint for the optimal control problem: 
 
 \begin{equation}
 	\label{equ:car_cons}
@@ -171,7 +185,11 @@ The error term $e(t)$, in Equation \ref{equ:pid_ctr}, is defined as below:
 Equation \ref{equ:pid_err} involves several variables. Firstly, $m_{dist}$ denotes the lookahead distance, while $s(t)$ represents the sentinel point. Secondly, $t(t)$ refers to the target point on the Bézier curve that is in proximity to the sentinel point $s(t)$. Lastly, $\hat{y}(t)$ is a unit vector oriented towards the rover's lateral direction. Notably, the error term $e(t)$ is limited between -1 and 1, signifying the maximum left and right steering errors, respectively. Note that since in the current problem setup, the rover is moving relatively slow using a linear DC motor model with maximum rotational speed $\pi$ $rad/s$ and a stall torque of 300 $N/m$. By conducting serval experiments, it is believed that a positive K value is good enough for trajectory tracking to work relatively well.
 
 \section{Results}
-4 different obstacle arrangement has been tested and examined, the positions of the obstacles, and the scenario parameters for each testing case are shown in Table \ref{tab:sce_setup} and Table \ref{tab:sce_obs}. Note that 3 rock geometries are used and they have similar geometry. Therefore, for simplification, a 1.5-m radius is used for all obstacle geometries.
+4 different obstacle arrangement has been tested and examined to benchmark the path planning and trajectory tracking's robustness. The positions of the obstacles, and the scenario parameters for each testing case are shown in Table \ref{tab:sce_setup} and Table \ref{tab:sce_obs}. Note that 3 rock geometries are used and they have similar geometry, within the scope of the current project. Therefore, for simplification, a 1.5-m radius is used for all obstacle geometries. 
+
+The path planning results from ICLOCS are shown in Figure \ref{fig:res-iclocs}. The screenshots, and full simulation animation rendered by chrono::irrlicht submodule, can be found in Figure \ref{fig:res-screenshot}. The comparison between target trajectory and the actual trajectory by using a PID tracking control is shown in Figure \ref{fig:res-trajcompare}. Figure \ref{fig:sim-profile} shows the rover's speed profile and steering angle input in the simulation for each scenario. 
+
+The simulation results show that no collision happens and the trajectory planning and tracking work well in all 4 scenarios. Parameter tunning might be performed to further improve the PID tracking control's performance. 
 
 \begin{table}[]
 	\centering
@@ -223,6 +241,7 @@ Equation \ref{equ:pid_err} involves several variables. Firstly, $m_{dist}$ denot
 		\includegraphics[width=0.45\textwidth]{Images/iclocs/traj_4.png}}
 	
 	\caption{Trajectories generated by ICLOCS. In the each figure, the green curve is the optimal trajectory and each circle represents the bounding circle of each obstacle. }
+	\label{fig:res-iclocs}
 \end{figure}
 
 
@@ -242,6 +261,7 @@ Equation \ref{equ:pid_err} involves several variables. Firstly, $m_{dist}$ denot
 		\includegraphics[width=0.45\textwidth]{Images/screenshot/4.png}}
 	
 	\caption{Screenshot of the simulation for each scenario. Full simulation animation can be found in the corresponding citation entry. }
+	\label{fig:res-screenshot}
 \end{figure}
 
 \begin{figure}
@@ -260,6 +280,7 @@ Equation \ref{equ:pid_err} involves several variables. Firstly, $m_{dist}$ denot
 		\includegraphics[width=0.45\textwidth]{Images/traj/4.png}}
 	
 	\caption{Comparison between target trajectory and the actual simulation path for each scenario. Note that the trajectory tracking in enforced by using a PID controller.}
+	\label{fig:res-trajcompare}
 \end{figure}
 
 \begin{figure}
@@ -278,13 +299,18 @@ Equation \ref{equ:pid_err} involves several variables. Firstly, $m_{dist}$ denot
 		\includegraphics[width=0.45\textwidth]{Images/data/4.png}}
 	
 	\caption{Rover's speed profile and steering angle input in the simulation for each scenario. }
+	\label{fig:sim-profile}
 \end{figure}
 
 
 
 \section{Limitation and Future Work}
 
-We assume the control algorithm can obtain privileged information, such as the size of the terrain, the exact locations and the sizes of the obstacles, and the rover location due to the time limitation of the course project. However, we plan to extend the research focus to replicate what happens in real-life engineering - the environment, obstacles information, and rover information are all acquired through sensing, such as camera sensors, lidar sensors, radar sensors, and potentially position sensors. As Project Chrono can simulate sensor data, such as shown in Figure \ref{fig:curiosity_chrono}, in the near future, we will conduct research to reconstruct the 3d environment and obtain the terrain and obstacle data from the "real" environment. 
+
+The current control algorithm assumes privileged information regarding terrain size, obstacle locations, and rover location, which is limiting due to time constraints. However, future research aims to replicate real-life engineering scenarios by acquiring information through sensors such as camera, lidar, radar, and position sensors. Project Chrono has the capability to simulate sensor data, as demonstrated in Figure \ref{fig:curiosity_chrono}, but there is a need to reconstruct the 3D environment and obtain terrain and obstacle data from the real environment. Therefore, there are plans to conduct research to enable this in the near future.
+
+
+It is essential to validate the control algorithms' robustness and reliability by benchmarking them against more complex scenarios. This requires testing them against a wider range of obstacle sizes and locations. The rationale behind this is that complex scenarios offer more challenging environments for the control algorithms, which helps to identify areas of improvement. Moreover, these tests can provide valuable insights into how the algorithms perform under different conditions and highlight any potential weaknesses or failure points. Therefore, it is important to perform a thorough investigation of the algorithms' performance under various conditions to ensure their reliability and effectiveness in real-world situations.
 
 \bibliographystyle{ieeetr}
 \bibliography{sample}
