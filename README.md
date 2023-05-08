@@ -1,11 +1,3 @@
-# 601Project
+# Jason Zh Zhou Project Dump
 
-Author: Jason Zhou(zzhou292@wisc.edu), Yulong Yue(yyue32@wisc.edu)
-
-This repo contains extraterrestrial rover path planning and simulation project for ME 601, by Prof. Xiangru Xu, at UW-Madison. This repo might extend and lead to a future conference publication.
-
-The repo is made by two major components - Matlab control-side code and Chrono simulation code. A tcp/udp communication needs to be built to communicate the path data from the Matlab path planning control and propagates to the simulation program.
-
-Dependencies: ICLOCS2, Matlab, Project Chrono(https://projectchrono.org/)
-
-Note that the chrono code is pegged to "feature/robot_models" branch at https://github.com/zzhou292/chrono
+This repo contains various project files and manucripts completed by Jason Zhou
