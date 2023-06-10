@@ -1,7 +1,4 @@
-#include <string>
-#include <iostream>
-#include <climits>
-#include <chrono>
+#include "../general_include.h"
 
 using namespace std;
 class Solution {
