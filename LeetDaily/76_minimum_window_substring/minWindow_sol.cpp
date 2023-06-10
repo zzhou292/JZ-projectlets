@@ -1,8 +1,5 @@
-#include <string>
-#include <iostream>
-#include <climits>
-#include <chrono>
-#include <unordered_map>
+// Author: Jason Zhou
+#include "../general_include"
 
 using namespace std;
 class Solution {
