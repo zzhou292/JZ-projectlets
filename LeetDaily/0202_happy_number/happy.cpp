@@ -36,6 +36,5 @@ int main(){
     Solution a;
     cout << a.isHappy(19) << endl;
 
-
     return 0;
 }
