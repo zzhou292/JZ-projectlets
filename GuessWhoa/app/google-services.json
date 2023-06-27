@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "633779190964",
+    "firebase_url": "https://guesswhoa-322a1.firebaseio.com",
+    "project_id": "guesswhoa-322a1",
+    "storage_bucket": "guesswhoa-322a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633779190964:android:0d41107a5909d3c3216be1",
+        "android_client_info": {
+          "package_name": "com.example.guesswhoaini"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633779190964-of65hdiii2oro3ijphme2c1ufdm878n2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.guesswhoaini",
+            "certificate_hash": "282b1ad31d456915f909ad79fae966c25558fe6e"
+          }
+        },
+        {
+          "client_id": "633779190964-ofhd2f692f1iajv3k6g9bt48d720fn1t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.guesswhoaini",
+            "certificate_hash": "bed2619365cd3618e8d2e822ff33190b1921d3f0"
+          }
+        },
+        {
+          "client_id": "633779190964-7p70nsu1la6jps25ci6ek2df1ucd66t2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdovjc5d2P3kvr1fj-wC8cv6KFqg74eXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633779190964-7p70nsu1la6jps25ci6ek2df1ucd66t2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
