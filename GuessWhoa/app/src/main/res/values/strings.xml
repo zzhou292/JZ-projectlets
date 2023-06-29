@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">GuessWhoaIni</string>
+    <string name="start">Start</string>
+    <string name="about">About</string>
+    <string name="guess_whoa">Guess Whoa</string>
+    <string name="bluetooth_log_in">BlueTooth Log In</string>
+    <string name="please_enter_your_name">Please Enter Your Name</string>
+    <string name="log_in">Log In</string>
+    <string name="todo">TODO</string>
+    <string name="paint_test_rec">Paint Test Rec</string>
+    <string name="paint_test">Paint Test</string>
+    <string name="int_login_successful">Int Login Successful</string>
+    <string name="register">Register</string>
+</resources>

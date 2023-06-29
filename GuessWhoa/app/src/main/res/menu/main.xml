@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".PainttestActivity">
+
+    <item
+        android:id="@+id/red"
+        app:showAsAction = "never"
+        android:title="Red"/>
+
+    <item
+        android:id="@+id/green"
+        app:showAsAction = "never"
+        android:title="Green"/>
+
+    <item
+        android:id="@+id/blue"
+        app:showAsAction = "never"
+        android:title="Blue"/>
+
+    <item
+        android:id="@+id/clear"
+        app:showAsAction = "never"
+        android:title="Clear"/>
+
+    <item
+        android:id="@+id/pick"
+        app:showAsAction = "never"
+        android:title="Pick a Winner"/>
+    <item
+        android:id="@+id/problem"
+        app:showAsAction = "never"
+        android:title="Review Problem"/>
+</menu>
