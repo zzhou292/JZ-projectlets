@@ -1,5 +1,3 @@
-
-
 // Author: Jason Zhou
 #include "../general_include.h"
 
