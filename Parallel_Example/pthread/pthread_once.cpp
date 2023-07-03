@@ -1,3 +1,5 @@
+// Author: Jason Zhou
+
 #include<iostream>  
 #include<pthread.h>  
 #include <unistd.h>
