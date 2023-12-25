@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jason/Desktop/STUDY/learn-gl
+CMAKE_SOURCE_DIR = /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jason/Desktop/STUDY/learn-gl/build
+CMAKE_BINARY_DIR = /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jason/Desktop/STUDY/learn-gl/build/CMakeFiles /home/jason/Desktop/STUDY/learn-gl/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jason/Desktop/STUDY/learn-gl/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -168,6 +168,32 @@ glad/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/03_2_attributes.dir/build.make CMakeFiles/03_2_attributes.dir/build
 .PHONY : 03_2_attributes/fast
 
+#=============================================================================
+# Target rules for targets named 04_customized_shader
+
+# Build rule for target.
+04_customized_shader: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 04_customized_shader
+.PHONY : 04_customized_shader
+
+# fast build rule for target.
+04_customized_shader/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/04_customized_shader.dir/build.make CMakeFiles/04_customized_shader.dir/build
+.PHONY : 04_customized_shader/fast
+
+#=============================================================================
+# Target rules for targets named 05_texture
+
+# Build rule for target.
+05_texture: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 05_texture
+.PHONY : 05_texture
+
+# fast build rule for target.
+05_texture/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/05_texture.dir/build.make CMakeFiles/05_texture.dir/build
+.PHONY : 05_texture/fast
+
 01_rectangle.o: 01_rectangle.cpp.o
 .PHONY : 01_rectangle.o
 
@@ -240,6 +266,54 @@ glad/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/03_2_attributes.dir/build.make CMakeFiles/03_2_attributes.dir/03_2_attributes.cpp.s
 .PHONY : 03_2_attributes.cpp.s
 
+04_customized_shader.o: 04_customized_shader.cpp.o
+.PHONY : 04_customized_shader.o
+
+# target to build an object file
+04_customized_shader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/04_customized_shader.dir/build.make CMakeFiles/04_customized_shader.dir/04_customized_shader.cpp.o
+.PHONY : 04_customized_shader.cpp.o
+
+04_customized_shader.i: 04_customized_shader.cpp.i
+.PHONY : 04_customized_shader.i
+
+# target to preprocess a source file
+04_customized_shader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/04_customized_shader.dir/build.make CMakeFiles/04_customized_shader.dir/04_customized_shader.cpp.i
+.PHONY : 04_customized_shader.cpp.i
+
+04_customized_shader.s: 04_customized_shader.cpp.s
+.PHONY : 04_customized_shader.s
+
+# target to generate assembly for a file
+04_customized_shader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/04_customized_shader.dir/build.make CMakeFiles/04_customized_shader.dir/04_customized_shader.cpp.s
+.PHONY : 04_customized_shader.cpp.s
+
+05_texture.o: 05_texture.cpp.o
+.PHONY : 05_texture.o
+
+# target to build an object file
+05_texture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/05_texture.dir/build.make CMakeFiles/05_texture.dir/05_texture.cpp.o
+.PHONY : 05_texture.cpp.o
+
+05_texture.i: 05_texture.cpp.i
+.PHONY : 05_texture.i
+
+# target to preprocess a source file
+05_texture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/05_texture.dir/build.make CMakeFiles/05_texture.dir/05_texture.cpp.i
+.PHONY : 05_texture.cpp.i
+
+05_texture.s: 05_texture.cpp.s
+.PHONY : 05_texture.s
+
+# target to generate assembly for a file
+05_texture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/05_texture.dir/build.make CMakeFiles/05_texture.dir/05_texture.cpp.s
+.PHONY : 05_texture.cpp.s
+
 glad/src/glad.o: glad/src/glad.c.o
 .PHONY : glad/src/glad.o
 
@@ -275,6 +349,8 @@ help:
 	@echo "... 01_rectangle"
 	@echo "... 02_uniform_GLSL"
 	@echo "... 03_2_attributes"
+	@echo "... 04_customized_shader"
+	@echo "... 05_texture"
 	@echo "... glad"
 	@echo "... 01_rectangle.o"
 	@echo "... 01_rectangle.i"
@@ -285,6 +361,12 @@ help:
 	@echo "... 03_2_attributes.o"
 	@echo "... 03_2_attributes.i"
 	@echo "... 03_2_attributes.s"
+	@echo "... 04_customized_shader.o"
+	@echo "... 04_customized_shader.i"
+	@echo "... 04_customized_shader.s"
+	@echo "... 05_texture.o"
+	@echo "... 05_texture.i"
+	@echo "... 05_texture.s"
 	@echo "... glad/src/glad.o"
 	@echo "... glad/src/glad.i"
 	@echo "... glad/src/glad.s"

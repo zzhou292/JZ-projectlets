@@ -50,4 +50,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/01_rectangle.dir/DependInfo.cmake"
   "CMakeFiles/02_uniform_GLSL.dir/DependInfo.cmake"
   "CMakeFiles/03_2_attributes.dir/DependInfo.cmake"
+  "CMakeFiles/04_customized_shader.dir/DependInfo.cmake"
+  "CMakeFiles/05_texture.dir/DependInfo.cmake"
   )

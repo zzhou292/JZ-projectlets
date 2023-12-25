@@ -8,12 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/jason/Desktop/STUDY/learn-gl/02_uniform_GLSL.cpp" "CMakeFiles/02_uniform_GLSL.dir/02_uniform_GLSL.cpp.o" "gcc" "CMakeFiles/02_uniform_GLSL.dir/02_uniform_GLSL.cpp.o.d"
+  "/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/02_uniform_GLSL.cpp" "CMakeFiles/02_uniform_GLSL.dir/02_uniform_GLSL.cpp.o" "gcc" "CMakeFiles/02_uniform_GLSL.dir/02_uniform_GLSL.cpp.o.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/jason/Desktop/STUDY/learn-gl/build/CMakeFiles/glad.dir/DependInfo.cmake"
+  "/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles/glad.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/jason/Desktop/STUDY/learn-gl/glad/include
+C_INCLUDES = -I/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/glad/include
 
 C_FLAGS = -O3 -DNDEBUG
 

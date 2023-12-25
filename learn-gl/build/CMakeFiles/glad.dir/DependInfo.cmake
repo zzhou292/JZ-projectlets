@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/jason/Desktop/STUDY/learn-gl/glad/src/glad.c" "CMakeFiles/glad.dir/glad/src/glad.c.o" "gcc" "CMakeFiles/glad.dir/glad/src/glad.c.o.d"
+  "/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/glad/src/glad.c" "CMakeFiles/glad.dir/glad/src/glad.c.o" "gcc" "CMakeFiles/glad.dir/glad/src/glad.c.o.d"
   )
 
 # Targets to which this target links.

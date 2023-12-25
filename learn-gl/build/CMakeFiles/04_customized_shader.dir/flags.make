@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/jason/Desktop/STUDY/learn-gl/glad/include
+CXX_INCLUDES = -I/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/glad/include
 
 CXX_FLAGS = -O3 -DNDEBUG
 

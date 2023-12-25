@@ -1,7 +1,8 @@
-CMakeFiles/main.dir/main.cpp.o: \
- /home/jason/Desktop/STUDY/learn-gl/main.cpp /usr/include/stdc-predef.h \
- /home/jason/Desktop/STUDY/learn-gl/glad/include/glad/glad.h \
- /home/jason/Desktop/STUDY/learn-gl/glad/include/KHR/khrplatform.h \
+CMakeFiles/04_customized_shader.dir/04_customized_shader.cpp.o: \
+ /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/04_customized_shader.cpp \
+ /usr/include/stdc-predef.h \
+ /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/glad/include/glad/glad.h \
+ /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/glad/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -17,19 +18,19 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/GLFW/glfw3.h \
- /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
- /usr/include/c++/11/iostream \
+ /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/utils/shader_s.h \
+ /usr/include/c++/11/fstream /usr/include/c++/11/istream \
+ /usr/include/c++/11/ios /usr/include/c++/11/iosfwd \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
- /usr/include/c++/11/pstl/pstl_config.h /usr/include/c++/11/ostream \
- /usr/include/c++/11/ios /usr/include/c++/11/iosfwd \
+ /usr/include/c++/11/pstl/pstl_config.h \
  /usr/include/c++/11/bits/stringfwd.h \
  /usr/include/c++/11/bits/memoryfwd.h /usr/include/c++/11/bits/postypes.h \
  /usr/include/c++/11/cwchar /usr/include/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
@@ -151,6 +152,11 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/11/bits/streambuf_iterator.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h \
  /usr/include/c++/11/bits/locale_facets.tcc \
- /usr/include/c++/11/bits/basic_ios.tcc \
- /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
- /usr/include/c++/11/bits/istream.tcc
+ /usr/include/c++/11/bits/basic_ios.tcc /usr/include/c++/11/ostream \
+ /usr/include/c++/11/bits/ostream.tcc \
+ /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+ /usr/include/c++/11/bits/fstream.tcc /usr/include/c++/11/iostream \
+ /usr/include/c++/11/sstream /usr/include/c++/11/bits/sstream.tcc \
+ /usr/include/GLFW/glfw3.h

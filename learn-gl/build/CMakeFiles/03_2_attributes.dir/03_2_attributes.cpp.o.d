@@ -1,8 +1,8 @@
 CMakeFiles/03_2_attributes.dir/03_2_attributes.cpp.o: \
- /home/jason/Desktop/STUDY/learn-gl/03_2_attributes.cpp \
+ /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/03_2_attributes.cpp \
  /usr/include/stdc-predef.h \
- /home/jason/Desktop/STUDY/learn-gl/glad/include/glad/glad.h \
- /home/jason/Desktop/STUDY/learn-gl/glad/include/KHR/khrplatform.h \
+ /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/glad/include/glad/glad.h \
+ /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/glad/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \

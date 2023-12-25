@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/04_customized_shader.dir/04_customized_shader.cpp.o -o 04_customized_shader  -lglfw libglad.a  -ldl
