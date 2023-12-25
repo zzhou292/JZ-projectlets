@@ -52,4 +52,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/03_2_attributes.dir/DependInfo.cmake"
   "CMakeFiles/04_customized_shader.dir/DependInfo.cmake"
   "CMakeFiles/05_texture.dir/DependInfo.cmake"
+  "CMakeFiles/06_dual_texture.dir/DependInfo.cmake"
+  "CMakeFiles/07_transformations.dir/DependInfo.cmake"
   )

@@ -194,6 +194,32 @@ glad/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/05_texture.dir/build.make CMakeFiles/05_texture.dir/build
 .PHONY : 05_texture/fast
 
+#=============================================================================
+# Target rules for targets named 06_dual_texture
+
+# Build rule for target.
+06_dual_texture: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 06_dual_texture
+.PHONY : 06_dual_texture
+
+# fast build rule for target.
+06_dual_texture/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/06_dual_texture.dir/build.make CMakeFiles/06_dual_texture.dir/build
+.PHONY : 06_dual_texture/fast
+
+#=============================================================================
+# Target rules for targets named 07_transformations
+
+# Build rule for target.
+07_transformations: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 07_transformations
+.PHONY : 07_transformations
+
+# fast build rule for target.
+07_transformations/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/07_transformations.dir/build.make CMakeFiles/07_transformations.dir/build
+.PHONY : 07_transformations/fast
+
 01_rectangle.o: 01_rectangle.cpp.o
 .PHONY : 01_rectangle.o
 
@@ -314,6 +340,54 @@ glad/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/05_texture.dir/build.make CMakeFiles/05_texture.dir/05_texture.cpp.s
 .PHONY : 05_texture.cpp.s
 
+06_dual_texture.o: 06_dual_texture.cpp.o
+.PHONY : 06_dual_texture.o
+
+# target to build an object file
+06_dual_texture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/06_dual_texture.dir/build.make CMakeFiles/06_dual_texture.dir/06_dual_texture.cpp.o
+.PHONY : 06_dual_texture.cpp.o
+
+06_dual_texture.i: 06_dual_texture.cpp.i
+.PHONY : 06_dual_texture.i
+
+# target to preprocess a source file
+06_dual_texture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/06_dual_texture.dir/build.make CMakeFiles/06_dual_texture.dir/06_dual_texture.cpp.i
+.PHONY : 06_dual_texture.cpp.i
+
+06_dual_texture.s: 06_dual_texture.cpp.s
+.PHONY : 06_dual_texture.s
+
+# target to generate assembly for a file
+06_dual_texture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/06_dual_texture.dir/build.make CMakeFiles/06_dual_texture.dir/06_dual_texture.cpp.s
+.PHONY : 06_dual_texture.cpp.s
+
+07_transformations.o: 07_transformations.cpp.o
+.PHONY : 07_transformations.o
+
+# target to build an object file
+07_transformations.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/07_transformations.dir/build.make CMakeFiles/07_transformations.dir/07_transformations.cpp.o
+.PHONY : 07_transformations.cpp.o
+
+07_transformations.i: 07_transformations.cpp.i
+.PHONY : 07_transformations.i
+
+# target to preprocess a source file
+07_transformations.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/07_transformations.dir/build.make CMakeFiles/07_transformations.dir/07_transformations.cpp.i
+.PHONY : 07_transformations.cpp.i
+
+07_transformations.s: 07_transformations.cpp.s
+.PHONY : 07_transformations.s
+
+# target to generate assembly for a file
+07_transformations.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/07_transformations.dir/build.make CMakeFiles/07_transformations.dir/07_transformations.cpp.s
+.PHONY : 07_transformations.cpp.s
+
 glad/src/glad.o: glad/src/glad.c.o
 .PHONY : glad/src/glad.o
 
@@ -351,6 +425,8 @@ help:
 	@echo "... 03_2_attributes"
 	@echo "... 04_customized_shader"
 	@echo "... 05_texture"
+	@echo "... 06_dual_texture"
+	@echo "... 07_transformations"
 	@echo "... glad"
 	@echo "... 01_rectangle.o"
 	@echo "... 01_rectangle.i"
@@ -367,6 +443,12 @@ help:
 	@echo "... 05_texture.o"
 	@echo "... 05_texture.i"
 	@echo "... 05_texture.s"
+	@echo "... 06_dual_texture.o"
+	@echo "... 06_dual_texture.i"
+	@echo "... 06_dual_texture.s"
+	@echo "... 07_transformations.o"
+	@echo "... 07_transformations.i"
+	@echo "... 07_transformations.s"
 	@echo "... glad/src/glad.o"
 	@echo "... glad/src/glad.i"
 	@echo "... glad/src/glad.s"

@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/06_dual_texture.dir/06_dual_texture.cpp.o -o 06_dual_texture  -lglfw libglad.a  -ldl

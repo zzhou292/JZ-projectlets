@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/07_transformations.dir/07_transformations.cpp.o -o 07_transformations  -lglfw libglad.a  -ldl
