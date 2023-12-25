@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/03_2_attributes.dir/03_2_attributes.cpp.o -o 03_2_attributes  -lglfw libglad.a  -ldl

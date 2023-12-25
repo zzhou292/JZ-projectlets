@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/02_uniform_GLSL.dir/02_uniform_GLSL.cpp.o -o 02_uniform_GLSL  -lglfw libglad.a  -ldl

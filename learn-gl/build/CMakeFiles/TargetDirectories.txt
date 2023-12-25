@@ -1,0 +1,6 @@
+/home/jason/Desktop/STUDY/learn-gl/build/CMakeFiles/glad.dir
+/home/jason/Desktop/STUDY/learn-gl/build/CMakeFiles/01_rectangle.dir
+/home/jason/Desktop/STUDY/learn-gl/build/CMakeFiles/02_uniform_GLSL.dir
+/home/jason/Desktop/STUDY/learn-gl/build/CMakeFiles/03_2_attributes.dir
+/home/jason/Desktop/STUDY/learn-gl/build/CMakeFiles/edit_cache.dir
+/home/jason/Desktop/STUDY/learn-gl/build/CMakeFiles/rebuild_cache.dir
