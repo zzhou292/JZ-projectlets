@@ -8,5 +8,6 @@
 /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles/07_transformations.dir
 /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles/08_lighting.dir
 /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles/09_phong.dir
+/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles/10_textured_phong.dir
 /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles/edit_cache.dir
 /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles/rebuild_cache.dir

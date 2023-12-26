@@ -56,4 +56,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/07_transformations.dir/DependInfo.cmake"
   "CMakeFiles/08_lighting.dir/DependInfo.cmake"
   "CMakeFiles/09_phong.dir/DependInfo.cmake"
+  "CMakeFiles/10_textured_phong.dir/DependInfo.cmake"
   )

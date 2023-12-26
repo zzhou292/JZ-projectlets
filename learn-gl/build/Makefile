@@ -246,6 +246,19 @@ glad/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/09_phong.dir/build.make CMakeFiles/09_phong.dir/build
 .PHONY : 09_phong/fast
 
+#=============================================================================
+# Target rules for targets named 10_textured_phong
+
+# Build rule for target.
+10_textured_phong: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 10_textured_phong
+.PHONY : 10_textured_phong
+
+# fast build rule for target.
+10_textured_phong/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/10_textured_phong.dir/build.make CMakeFiles/10_textured_phong.dir/build
+.PHONY : 10_textured_phong/fast
+
 01_rectangle.o: 01_rectangle.cpp.o
 .PHONY : 01_rectangle.o
 
@@ -462,6 +475,30 @@ glad/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/09_phong.dir/build.make CMakeFiles/09_phong.dir/09_phong.cpp.s
 .PHONY : 09_phong.cpp.s
 
+10_textured_phong.o: 10_textured_phong.cpp.o
+.PHONY : 10_textured_phong.o
+
+# target to build an object file
+10_textured_phong.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/10_textured_phong.dir/build.make CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o
+.PHONY : 10_textured_phong.cpp.o
+
+10_textured_phong.i: 10_textured_phong.cpp.i
+.PHONY : 10_textured_phong.i
+
+# target to preprocess a source file
+10_textured_phong.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/10_textured_phong.dir/build.make CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.i
+.PHONY : 10_textured_phong.cpp.i
+
+10_textured_phong.s: 10_textured_phong.cpp.s
+.PHONY : 10_textured_phong.s
+
+# target to generate assembly for a file
+10_textured_phong.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/10_textured_phong.dir/build.make CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.s
+.PHONY : 10_textured_phong.cpp.s
+
 glad/src/glad.o: glad/src/glad.c.o
 .PHONY : glad/src/glad.o
 
@@ -503,6 +540,7 @@ help:
 	@echo "... 07_transformations"
 	@echo "... 08_lighting"
 	@echo "... 09_phong"
+	@echo "... 10_textured_phong"
 	@echo "... glad"
 	@echo "... 01_rectangle.o"
 	@echo "... 01_rectangle.i"
@@ -531,6 +569,9 @@ help:
 	@echo "... 09_phong.o"
 	@echo "... 09_phong.i"
 	@echo "... 09_phong.s"
+	@echo "... 10_textured_phong.o"
+	@echo "... 10_textured_phong.i"
+	@echo "... 10_textured_phong.s"
 	@echo "... glad/src/glad.o"
 	@echo "... glad/src/glad.i"
 	@echo "... glad/src/glad.s"

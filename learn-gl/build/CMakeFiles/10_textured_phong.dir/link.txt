@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o -o 10_textured_phong  -lglfw libglad.a  -ldl
