@@ -71,6 +71,8 @@ all: CMakeFiles/04_customized_shader.dir/all
 all: CMakeFiles/05_texture.dir/all
 all: CMakeFiles/06_dual_texture.dir/all
 all: CMakeFiles/07_transformations.dir/all
+all: CMakeFiles/08_lighting.dir/all
+all: CMakeFiles/09_phong.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -86,6 +88,8 @@ clean: CMakeFiles/04_customized_shader.dir/clean
 clean: CMakeFiles/05_texture.dir/clean
 clean: CMakeFiles/06_dual_texture.dir/clean
 clean: CMakeFiles/07_transformations.dir/clean
+clean: CMakeFiles/08_lighting.dir/clean
+clean: CMakeFiles/09_phong.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -95,7 +99,7 @@ clean: CMakeFiles/07_transformations.dir/clean
 CMakeFiles/glad.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles --progress-num=15,16 "Built target glad"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles --progress-num=19,20 "Built target glad"
 .PHONY : CMakeFiles/glad.dir/all
 
 # Build rule for subdir invocation for target.
@@ -295,6 +299,58 @@ CMakeFiles/07_transformations.dir/rule: cmake_check_build_system
 CMakeFiles/07_transformations.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/07_transformations.dir/build.make CMakeFiles/07_transformations.dir/clean
 .PHONY : CMakeFiles/07_transformations.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/08_lighting.dir
+
+# All Build rule for target.
+CMakeFiles/08_lighting.dir/all: CMakeFiles/glad.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/08_lighting.dir/build.make CMakeFiles/08_lighting.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/08_lighting.dir/build.make CMakeFiles/08_lighting.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles --progress-num=15,16 "Built target 08_lighting"
+.PHONY : CMakeFiles/08_lighting.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/08_lighting.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/08_lighting.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles 0
+.PHONY : CMakeFiles/08_lighting.dir/rule
+
+# Convenience name for target.
+08_lighting: CMakeFiles/08_lighting.dir/rule
+.PHONY : 08_lighting
+
+# clean rule for target.
+CMakeFiles/08_lighting.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/08_lighting.dir/build.make CMakeFiles/08_lighting.dir/clean
+.PHONY : CMakeFiles/08_lighting.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/09_phong.dir
+
+# All Build rule for target.
+CMakeFiles/09_phong.dir/all: CMakeFiles/glad.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/09_phong.dir/build.make CMakeFiles/09_phong.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/09_phong.dir/build.make CMakeFiles/09_phong.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles --progress-num=17,18 "Built target 09_phong"
+.PHONY : CMakeFiles/09_phong.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/09_phong.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/09_phong.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jason/Desktop/STUDY/JZ-projectlets/learn-gl/build/CMakeFiles 0
+.PHONY : CMakeFiles/09_phong.dir/rule
+
+# Convenience name for target.
+09_phong: CMakeFiles/09_phong.dir/rule
+.PHONY : 09_phong
+
+# clean rule for target.
+CMakeFiles/09_phong.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/09_phong.dir/build.make CMakeFiles/09_phong.dir/clean
+.PHONY : CMakeFiles/09_phong.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/09_phong.dir/09_phong.cpp.o -o 09_phong  -lglfw libglad.a  -ldl

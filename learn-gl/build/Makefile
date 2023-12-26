@@ -220,6 +220,32 @@ glad/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/07_transformations.dir/build.make CMakeFiles/07_transformations.dir/build
 .PHONY : 07_transformations/fast
 
+#=============================================================================
+# Target rules for targets named 08_lighting
+
+# Build rule for target.
+08_lighting: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 08_lighting
+.PHONY : 08_lighting
+
+# fast build rule for target.
+08_lighting/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/08_lighting.dir/build.make CMakeFiles/08_lighting.dir/build
+.PHONY : 08_lighting/fast
+
+#=============================================================================
+# Target rules for targets named 09_phong
+
+# Build rule for target.
+09_phong: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 09_phong
+.PHONY : 09_phong
+
+# fast build rule for target.
+09_phong/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/09_phong.dir/build.make CMakeFiles/09_phong.dir/build
+.PHONY : 09_phong/fast
+
 01_rectangle.o: 01_rectangle.cpp.o
 .PHONY : 01_rectangle.o
 
@@ -388,6 +414,54 @@ glad/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/07_transformations.dir/build.make CMakeFiles/07_transformations.dir/07_transformations.cpp.s
 .PHONY : 07_transformations.cpp.s
 
+08_lighting.o: 08_lighting.cpp.o
+.PHONY : 08_lighting.o
+
+# target to build an object file
+08_lighting.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/08_lighting.dir/build.make CMakeFiles/08_lighting.dir/08_lighting.cpp.o
+.PHONY : 08_lighting.cpp.o
+
+08_lighting.i: 08_lighting.cpp.i
+.PHONY : 08_lighting.i
+
+# target to preprocess a source file
+08_lighting.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/08_lighting.dir/build.make CMakeFiles/08_lighting.dir/08_lighting.cpp.i
+.PHONY : 08_lighting.cpp.i
+
+08_lighting.s: 08_lighting.cpp.s
+.PHONY : 08_lighting.s
+
+# target to generate assembly for a file
+08_lighting.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/08_lighting.dir/build.make CMakeFiles/08_lighting.dir/08_lighting.cpp.s
+.PHONY : 08_lighting.cpp.s
+
+09_phong.o: 09_phong.cpp.o
+.PHONY : 09_phong.o
+
+# target to build an object file
+09_phong.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/09_phong.dir/build.make CMakeFiles/09_phong.dir/09_phong.cpp.o
+.PHONY : 09_phong.cpp.o
+
+09_phong.i: 09_phong.cpp.i
+.PHONY : 09_phong.i
+
+# target to preprocess a source file
+09_phong.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/09_phong.dir/build.make CMakeFiles/09_phong.dir/09_phong.cpp.i
+.PHONY : 09_phong.cpp.i
+
+09_phong.s: 09_phong.cpp.s
+.PHONY : 09_phong.s
+
+# target to generate assembly for a file
+09_phong.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/09_phong.dir/build.make CMakeFiles/09_phong.dir/09_phong.cpp.s
+.PHONY : 09_phong.cpp.s
+
 glad/src/glad.o: glad/src/glad.c.o
 .PHONY : glad/src/glad.o
 
@@ -427,6 +501,8 @@ help:
 	@echo "... 05_texture"
 	@echo "... 06_dual_texture"
 	@echo "... 07_transformations"
+	@echo "... 08_lighting"
+	@echo "... 09_phong"
 	@echo "... glad"
 	@echo "... 01_rectangle.o"
 	@echo "... 01_rectangle.i"
@@ -449,6 +525,12 @@ help:
 	@echo "... 07_transformations.o"
 	@echo "... 07_transformations.i"
 	@echo "... 07_transformations.s"
+	@echo "... 08_lighting.o"
+	@echo "... 08_lighting.i"
+	@echo "... 08_lighting.s"
+	@echo "... 09_phong.o"
+	@echo "... 09_phong.i"
+	@echo "... 09_phong.s"
 	@echo "... glad/src/glad.o"
 	@echo "... glad/src/glad.i"
 	@echo "... glad/src/glad.s"

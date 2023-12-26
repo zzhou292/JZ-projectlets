@@ -54,4 +54,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/05_texture.dir/DependInfo.cmake"
   "CMakeFiles/06_dual_texture.dir/DependInfo.cmake"
   "CMakeFiles/07_transformations.dir/DependInfo.cmake"
+  "CMakeFiles/08_lighting.dir/DependInfo.cmake"
+  "CMakeFiles/09_phong.dir/DependInfo.cmake"
   )

@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/08_lighting.dir/08_lighting.cpp.o -o 08_lighting  -lglfw libglad.a  -ldl
