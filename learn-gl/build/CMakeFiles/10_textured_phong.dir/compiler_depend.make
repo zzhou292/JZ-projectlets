@@ -3,8 +3,8 @@
 
 CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.cpp \
   /usr/include/stdc-predef.h \
-  /usr/include/GLFW/glfw3.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
+  ../glad/include/glad/glad.h \
+  ../glad/include/KHR/khrplatform.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -22,10 +22,8 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/GL/gl.h \
-  /usr/include/GL/glext.h \
-  ../glad/include/KHR/khrplatform.h \
-  ../glad/include/glad/glad.h \
+  /usr/include/GLFW/glfw3.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
   /usr/include/glm/glm.hpp \
   /usr/include/glm/detail/_fixes.hpp \
   /usr/include/c++/11/cmath \
@@ -617,6 +615,8 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/glm/ext/quaternion_trigonometric.inl:
 
+/usr/include/glm/ext/quaternion_trigonometric.hpp:
+
 /usr/include/c++/11/bits/locale_facets.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
@@ -643,11 +643,7 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/glm/ext/scalar_constants.inl:
 
-/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
-
-/usr/include/glm/gtc/constants.hpp:
-
-/usr/include/glm/ext/matrix_projection.hpp:
+/usr/include/glm/fwd.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
 
@@ -751,15 +747,9 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/glm/detail/type_mat2x4.inl:
 
-/usr/include/x86_64-linux-gnu/bits/endianness.h:
+/usr/include/c++/11/ext/type_traits.h:
 
-/usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h:
-
-/usr/include/glm/detail/type_mat2x4.hpp:
-
-/usr/include/glm/ext/matrix_float4x3.hpp:
-
-/usr/include/glm/fwd.hpp:
+/usr/include/glm/ext/matrix_float2x2.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
@@ -777,8 +767,6 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/features.h:
 
-/usr/include/x86_64-linux-gnu/bits/endian.h:
-
 /usr/include/c++/11/cfloat:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
@@ -787,19 +775,37 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/glm/mat4x4.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/sched.h:
+/usr/include/x86_64-linux-gnu/bits/endianness.h:
 
-/usr/include/c++/11/ext/alloc_traits.h:
+/usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h:
 
-/usr/include/glm/ext/vector_uint2_sized.hpp:
+/usr/include/glm/detail/type_mat2x4.hpp:
 
-/usr/include/glm/ext/quaternion_trigonometric.hpp:
+/usr/include/glm/ext/matrix_float4x3.hpp:
 
-/usr/include/GL/glext.h:
+/usr/include/x86_64-linux-gnu/bits/endian.h:
 
-/usr/include/glm/ext/matrix_clip_space.hpp:
+/usr/include/limits.h:
 
-/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+/usr/include/glm/detail/type_mat3x4.hpp:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
+/usr/include/c++/11/tr1/gamma.tcc:
+
+/usr/include/GLFW/glfw3.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/include/glm/ext/matrix_float4x4.hpp:
+
+/usr/include/c++/11/bits/allocator.h:
+
+/usr/include/c++/11/cmath:
+
+../glad/include/KHR/khrplatform.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
@@ -841,32 +847,6 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
-/usr/include/c++/11/bits/allocator.h:
-
-/usr/include/c++/11/cmath:
-
-../glad/include/KHR/khrplatform.h:
-
-/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
-
-/usr/include/limits.h:
-
-/usr/include/glm/detail/type_mat3x4.hpp:
-
-/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
-
-/usr/include/c++/11/tr1/gamma.tcc:
-
-/usr/include/GLFW/glfw3.h:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-
-/usr/include/glm/ext/matrix_float4x4.hpp:
-
-/usr/include/c++/11/bits/postypes.h:
-
-/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
-
 /usr/include/glm/ext/vector_double1.hpp:
 
 /usr/include/c++/11/bits/std_abs.h:
@@ -886,8 +866,6 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 /usr/include/glm/mat3x3.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
 /usr/include/glm/gtc/quaternion.hpp:
 
@@ -941,10 +919,6 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
 
-/usr/include/c++/11/bits/cpp_type_traits.h:
-
-/usr/include/c++/11/bits/stl_iterator_base_funcs.h:
-
 /usr/include/c++/11/cstdio:
 
 /usr/include/glm/ext/matrix_float3x4_precision.hpp:
@@ -961,15 +935,31 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/glm/detail/compute_common.hpp:
 
-/usr/include/c++/11/ext/type_traits.h:
-
-/usr/include/glm/ext/matrix_float2x2.hpp:
-
 /usr/include/c++/11/limits:
 
 /usr/include/glm/ext/vector_float3_precision.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
+
 /usr/include/c++/11/pstl/pstl_config.h:
+
+/usr/include/glm/ext/matrix_clip_space.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
+/usr/include/c++/11/bits/stl_iterator_base_funcs.h:
+
+/usr/include/c++/11/bits/cpp_type_traits.h:
+
+/usr/include/x86_64-linux-gnu/bits/sched.h:
+
+/usr/include/c++/11/ext/alloc_traits.h:
+
+/usr/include/glm/ext/vector_uint2_sized.hpp:
+
+/usr/include/c++/11/bits/postypes.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
 /usr/include/glm/ext/vector_float4.hpp:
 
@@ -988,8 +978,6 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
-
-/usr/include/GL/gl.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
@@ -1033,15 +1021,15 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/endian.h:
 
-/usr/include/glm/ext/quaternion_geometric.hpp:
-
-/usr/include/glm/ext/matrix_float3x4.hpp:
-
 /usr/include/glm/gtc/matrix_transform.inl:
+
+/usr/include/glm/detail/qualifier.hpp:
 
 /usr/include/glm/detail/type_mat2x3.hpp:
 
-/usr/include/glm/detail/qualifier.hpp:
+/usr/include/glm/ext/quaternion_geometric.hpp:
+
+/usr/include/glm/ext/matrix_float3x4.hpp:
 
 /usr/include/glm/detail/compute_vector_relational.hpp:
 
@@ -1061,6 +1049,10 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 
 /usr/include/glm/ext/vector_int2.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+
+/usr/include/glm/gtc/constants.hpp:
+
 /usr/include/glm/ext/vector_int2_sized.hpp:
 
 /usr/include/c++/11/bits/vector.tcc:
@@ -1074,6 +1066,8 @@ CMakeFiles/10_textured_phong.dir/10_textured_phong.cpp.o: ../10_textured_phong.c
 /usr/include/glm/detail/type_mat3x2.inl:
 
 /usr/include/glm/packing.hpp:
+
+/usr/include/glm/ext/matrix_projection.hpp:
 
 /usr/include/glm/ext/vector_uint2.hpp:
 
