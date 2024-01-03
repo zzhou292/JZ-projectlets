@@ -1,14 +1,14 @@
 import numpy as np
 from matplotlib import pyplot 
 
-plot_every = 50
+plot_every = 5
 
 def distance(x1, y1, x2, y2):
     return np.sqrt((x1-x2)**2 + (y1-y2)**2)
 
 def main():
-    Nx = 400 # number of cells in x direction
-    Ny = 100 # number of cells in y direction
+    Nx = 4000 # number of cells in x direction
+    Ny = 1000 # number of cells in y direction
     tau = 0.53  # kinematic viscosity
     Nt = 8000
     
@@ -26,7 +26,7 @@ def main():
     
     for x in range(Nx):
         for y in range(Ny):
-            if distance(Nx//4, Ny//2, x, y) < 13:
+            if distance(Nx//4, Ny//2, x, y) < 130:
                 cylinder[y][x] = True
                 
     # main loop
