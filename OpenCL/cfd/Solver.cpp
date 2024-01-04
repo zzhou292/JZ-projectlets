@@ -34,10 +34,6 @@ void saveToCSV(int timestep, const std::vector<std::vector<double>> &ux,
 }
 
 int main() {
-  // initialize file outstream
-  std::ofstream outFile("velocity_data.csv");
-  outFile << "x,y,velocity_magnitude_squared\n";
-
   // Lattice speeds and weights
   std::vector<int> cxs = {0, 0, 1, 1, 1, 0, -1, -1, -1};
   std::vector<int> cys = {0, 1, 1, 0, -1, -1, -1, 0, 1};
