@@ -1,14 +1,15 @@
 #include <algorithm>
+#include <climits>
 #include <deque>
 #include <fstream>
 #include <iostream>
 #include <iterator>
 #include <list>
+#include <random> // For std::random_device and std::mt19937
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-
 // =========================
 // Definition form the system perspective
 // =========================
@@ -177,16 +178,33 @@ public:
   }
 
   void Initialize() {
-    // Initilize random cut
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::bernoulli_distribution dist(0.5); // Distribution for 50-50 chance
+
+    int halfSize = _cells.size() / 2;
+    int countForPart0 = 0;
+
     for (int i = 0; i < _cells.size(); i++) {
-      if (i < _cells.size() / 2) {
-        _cells[i].partition = true;
-        part_0_nodes++;
+      if (dist(gen) && countForPart0 < halfSize) {
+        _cells[i].partition = true; // Assign to part_0
+        countForPart0++;
       } else {
-        _cells[i].partition = false;
-        part_1_nodes++;
+        _cells[i].partition = false; // Assign to part_1
       }
     }
+
+    // If not enough cells were assigned to part_0 due to random chance, fill
+    // the rest
+    for (int i = 0; countForPart0 < halfSize && i < _cells.size(); i++) {
+      if (!_cells[i].partition) {
+        _cells[i].partition = true;
+        countForPart0++;
+      }
+    }
+
+    part_0_nodes = countForPart0;
+    part_1_nodes = _cells.size() - countForPart0;
 
     for (int i = 0; i < _cells.size(); i++) {
       if (_cells[i].nets.size() > max_gain) {
@@ -342,6 +360,7 @@ public:
                            unordered_map<string, int> &lockMap) {
     vector<Cell *> neighborCells;
     unordered_map<string, int> visitedMap;
+    visitedMap[movedCell->name]++;
     for (Net *net : movedCell->nets) {
       for (Cell *neighborCell : net->cells) {
         if (neighborCell != movedCell) {
@@ -430,10 +449,27 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  FMPartitioner partitioner;
-  partitioner.readInput(argv[1]);
-  partitioner.Initialize();
-  partitioner.onePass(atoi(argv[2]), atoi(argv[3]));
+  int min_cost = INT_MAX;
+  int min_idx = -1;
 
-  partitioner.writeOutput("output.dat");
+  vector<FMPartitioner> partitioners(5, FMPartitioner());
+
+  for (int i = 0; i < 5; i++) {
+    partitioners[i].readInput(argv[1]);
+    partitioners[i].Initialize();
+    partitioners[i].onePass(atoi(argv[2]), atoi(argv[3]));
+    int cost = partitioners[i].calculateCutCost();
+    if (cost < min_cost) {
+      min_cost = cost;
+      min_idx = i;
+    }
+  }
+
+  // display costs for all 10 partitioners
+  for (int i = 0; i < 5; i++) {
+    std::cout << "Partitioner " << i
+              << " cost: " << partitioners[i].calculateCutCost() << std::endl;
+  }
+
+  partitioners[min_idx].writeOutput("output.dat");
 }
