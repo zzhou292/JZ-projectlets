@@ -452,9 +452,9 @@ int main(int argc, char *argv[]) {
   int min_cost = INT_MAX;
   int min_idx = -1;
 
-  vector<FMPartitioner> partitioners(1, FMPartitioner());
+  vector<FMPartitioner> partitioners(5, FMPartitioner());
 
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 5; i++) {
     partitioners[i].readInput(argv[1]);
     partitioners[i].Initialize();
     partitioners[i].onePass(atoi(argv[2]), atoi(argv[3]));
@@ -466,7 +466,7 @@ int main(int argc, char *argv[]) {
   }
 
   // display costs for all 10 partitioners
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 5; i++) {
     std::cout << "Partitioner " << i
               << " cost: " << partitioners[i].calculateCutCost() << std::endl;
   }
