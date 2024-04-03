@@ -5,7 +5,6 @@
 #include <cmath>    // If you need mathematical functions, e.g., for cost evaluation
 #include <unordered_map>
 
-
 class Module
 {
 public:
@@ -56,11 +55,16 @@ public:
 class FloorplanOptimizer
 {
 private:
-    std::vector<Module *> modules;          // All modules including blocks and terminals
+    std::vector<Module *> blocks;           // All modules including blocks and terminals
+    std::vector<Module *> terminals;        // Terminals
     std::vector<Net *> nets;                // All nets connecting the modules
     std::vector<Module *> positiveSequence; // Positive sequence for SP representation
     std::vector<Module *> negativeSequence; // Negative sequence for SP representation
     std::unordered_map<std::string, Module *> moduleMap;
+
+    // adjacency list for the constriant graph
+    std::vector<std::vector<int>> adjX; // Adjacency list for horizontal graph
+    std::vector<std::vector<int>> adjY; // Adjacency list for vertical graph
 
 public:
     FloorplanOptimizer()
@@ -68,11 +72,24 @@ public:
         // Constructor implementation
     }
 
-    void addModule(Module *module)
+    int outline_width = 0;  // Width of the outline
+    int outline_height = 0; // Height of the outline
+
+    int layout_width = 0;  // Width of the layout
+    int layout_height = 0; // Height of the layout
+
+    void addModule(Module *module, bool isTerminal = false)
     {
-        modules.push_back(module);
-        // Update the map with a pointer to the newly added module
-        moduleMap[module->id] = modules.back();
+        if (isTerminal)
+        {
+            terminals.push_back(module);
+            moduleMap[module->id] = terminals.back();
+        }
+        else
+        {
+            blocks.push_back(module);
+            moduleMap[module->id] = blocks.back();
+        }
     }
 
     Module *getModuleByName(const std::string &name)
@@ -90,12 +107,17 @@ public:
         nets.push_back(net);
     }
 
+    void move_1(Module *a, Module *b);
+    void move_2(Module *a, Module *b);
     void optimize(); // Main method to run the optimization process
 
     // Utility methods for floorplan manipulation
     void initializeSequences();
     double evaluateCost() const;
-    void applyMove(); // Apply a move to perturb the sequences
+    int evaluateHPWL() const;
+
+    void constructRelativePositions();
+    void calculateDimensionsUsingSPFA();
 
     // Methods for input/output
     void loadFromFiles(const std::string &blockFilePath, const std::string &netFilePath);
@@ -105,10 +127,22 @@ public:
     {
         std::cout << "Loaded Data:" << std::endl;
         std::cout << "Modules:" << std::endl;
-        for (const auto &module : modules)
+        std::cout << "Number of blocks: " << blocks.size() << std::endl;
+        std::cout << "Number of nets: " << nets.size() << std::endl;
+        std::cout << "Outline: " << outline_width << " x " << outline_height << std::endl;
+
+        std::cout << "Blocks:" << std::endl;
+        for (const auto &module : blocks)
         {
             module->print();
         }
+
+        std::cout << "Terminals: " << std::endl;
+        for (const auto &module : terminals)
+        {
+            module->print();
+        }
+
         std::cout << "Nets:" << std::endl;
         for (const auto &net : nets)
         {
