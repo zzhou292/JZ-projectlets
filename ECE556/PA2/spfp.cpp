@@ -4,102 +4,154 @@
 #include <vector>
 #include <string>
 #include <regex>
+#include <algorithm>   // std::shuffle
+#include <random>      // std::default_random_engine
+#include <chrono>      // std::chrono::system_clock
 #include "spfp_ds.hpp" // Assume your class definitions are in this header
 
 // Helper function to check if a line should be processed
-bool isDataLine(const std::string& line) {
+bool isDataLine(const std::string &line)
+{
     return !line.empty() && isalpha(line[0]);
 }
 
-std::string trim(const std::string& str) {
+std::string trim(const std::string &str)
+{
     size_t first = str.find_first_not_of(' ');
-    if (std::string::npos == first) {
+    if (std::string::npos == first)
+    {
         return str;
     }
     size_t last = str.find_last_not_of(' ');
     return str.substr(first, (last - first + 1));
 }
 
-void FloorplanOptimizer::loadFromFiles(const std::string& blockFilePath, const std::string& netFilePath) {
+void FloorplanOptimizer::loadFromFiles(const std::string &blockFilePath, const std::string &netFilePath)
+{
     std::ifstream blockFile(blockFilePath);
     std::ifstream netFile(netFilePath);
     std::string line;
     std::regex wsRegex("\\s+"); // Whitespace regex for splitting
 
-    if (!blockFile) {
+    if (!blockFile)
+    {
         std::cerr << "Error opening block file: " << blockFilePath << std::endl;
         return;
     }
 
     // Skip non-relevant lines and read the outline width and height, if applicable
-    while (std::getline(blockFile, line) && line.find("Outline:") == std::string::npos);
+    while (std::getline(blockFile, line) && line.find("Outline:") == std::string::npos)
+        ;
     // Assuming outline information is processed here
 
     // Process block and terminal information
-    while (std::getline(blockFile, line)) {
+    while (std::getline(blockFile, line))
+    {
         line = std::regex_replace(line, wsRegex, " "); // Normalize spaces
-        if (line.empty() || line[0] == '#' || line[0] == '\n') continue; // Skip empty or comment lines
+
+        if (line.empty() || line[0] == '#' || line[0] == '\n')
+            continue; // Skip empty or comment lines
 
         std::istringstream iss(line);
         std::vector<std::string> tokens{std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{}};
 
-        if (tokens.size() == 3) { // It's a block
-            Module block(tokens[0], std::stoul(tokens[1]), std::stoul(tokens[2]));
-            addModule(block);
-        } else if (tokens.size() == 4 && tokens[1] == "terminal") { // It's a fixed point, handled within Module
-            Module terminal(tokens[0], std::stoul(tokens[2]), std::stoul(tokens[3]), false);
-            addModule(terminal);
+        if (tokens.size() == 3)
+        { // It's a block
+            Module *block = new Module(tokens[0], std::stoul(tokens[1]), std::stoul(tokens[2]));
+            if (getModuleByName(tokens[0]) == nullptr)
+            {
+                addModule(block);
+            }
+        }
+        else if (tokens.size() == 4 && tokens[1] == "terminal")
+        { // It's a fixed point, handled within Module
+            Module *terminal = new Module(tokens[0], std::stoul(tokens[2]), std::stoul(tokens[3]), false);
+            if (getModuleByName(tokens[0]) == nullptr)
+            {
+                addModule(terminal);
+            }
         }
     }
-
-    if (!netFile) {
+    if (!netFile)
+    {
         std::cerr << "Error opening net file: " << netFilePath << std::endl;
         return;
     }
-if (!netFile) {
-    std::cerr << "Error opening net file: " << netFilePath << std::endl;
-    return;
-}
 
-std::string netName;
-size_t netDegree = 0;
-// Read lines from the net file
-while (std::getline(netFile, line)) {
-    // Use regex to remove extra spaces and trim the line
-    line = std::regex_replace(line, wsRegex, " "); 
-    // Skip if line is a comment or empty
-    if (line.empty() || line[0] == '#' || line[0] == '\n') continue;
+    // number of nets
+    std::getline(netFile, line);
+    auto it = std::sregex_token_iterator(line.begin(), line.end(), wsRegex, -1);
+    int num_nets = std::stoi(*(++it));
 
-    std::istringstream iss(line);
-    std::string firstWord;
-    iss >> firstWord;
-
-    // If the line specifies the degree of a net
-    if (firstWord == "NetDegree:") {
-        iss >> netDegree; // Extract net degree
-        iss >> netName; // Assuming the next token is the net name, based on usual formats
-        Net net; // Assuming you have a default constructor for Net
-
-        for (size_t i = 0; i < netDegree; ++i) {
-            if (!std::getline(netFile, line)) break; // Exit loop if there are no more lines
-            line = std::regex_replace(line, wsRegex, " "); // Normalize spaces
-            line = trim(line); // Trim to remove leading and trailing spaces
-            if (line.empty()) { --i; continue; } // Adjust for empty lines
-            Module* module = getModuleByName(line); // Find module by name
-            if (module) {
-                net.addModule(module); // Add the module to the current net
-            } else {
-                std::cerr << "Module named '" << line << "' not found in net." << std::endl;
-            }
+    // configurations of nets
+    while (std::getline(netFile, line))
+    {
+        if (line.size() == 0)
+        {
+            continue;
         }
-        addNet(net); // Add the fully populated net to your collection
+
+        size_t netdegree = 0;
+        it = std::sregex_token_iterator(line.begin(), line.end(), wsRegex, -1);
+        netdegree = std::stoi(*(++it));
+
+        Net *n = new Net();
+        for (size_t i = 0; i < netdegree; ++i)
+        {
+            Module *var;
+            std::getline(netFile, line);
+            it = std::sregex_token_iterator(line.begin(), line.end(), wsRegex, -1);
+            var = getModuleByName(*it);
+
+            n->addModule(var);
+        }
+        addNet(n);
     }
 }
+
+void FloorplanOptimizer::initializeSequences()
+{
+    // Filter movable blocks only
+    positiveSequence.clear();
+    negativeSequence.clear();
+
+    for (auto &module : modules)
+    {
+        if (module->isMovable)
+        {
+            positiveSequence.push_back(module);
+            negativeSequence.push_back(module);
+        }
+    }
+
+    // Obtain a time-based seed:
+    unsigned seed_1 = std::chrono::system_clock::now().time_since_epoch().count();
+    unsigned seed_2 = std::chrono::system_clock::now().time_since_epoch().count() + 1209;
+
+    // Shuffle the sequences to generate a random initial sequence pair
+    std::shuffle(positiveSequence.begin(), positiveSequence.end(), std::default_random_engine(seed_1));
+    std::shuffle(negativeSequence.begin(), negativeSequence.end(), std::default_random_engine(seed_2));
+
+    // Output the initial sequences
+    std::cout << "Positive sequence: ";
+    for (const auto &module : positiveSequence)
+    {
+        std::cout << module->id << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Negative sequence: ";
+    for (const auto &module : negativeSequence)
+    {
+        std::cout << module->id << " ";
+    }
+    std::cout << std::endl;
 }
 
-
-int main(int argc, char* argv[]) {
-    if (argc != 5) {
+int main(int argc, char *argv[])
+{
+    if (argc != 5)
+    {
         std::cerr << "Usage: " << argv[0] << " [α value] [input.block name] [input.net name] [output file name]" << std::endl;
         return 1;
     }
@@ -113,6 +165,7 @@ int main(int argc, char* argv[]) {
     optimizer.loadFromFiles(blockFilePath, netFilePath);
     // After loading, output loaded data to command line
     optimizer.printLoadedData();
+    optimizer.initializeSequences();
 
     return 0;
 }
