@@ -166,7 +166,7 @@ void FloorplanOptimizer::initializeSequences()
     std::cout << std::endl;
 }
 
-int FloorplanOptimizer::evaluateHPWL() const
+void FloorplanOptimizer::evaluateHPWL()
 {
     int tmp_hpwl = 0;
     int max_x = 0, min_x = std::numeric_limits<int>::max(), max_y = 0, min_y = std::numeric_limits<int>::max();
@@ -223,19 +223,32 @@ int FloorplanOptimizer::evaluateHPWL() const
         tmp_hpwl = tmp_hpwl + (max_x - min_x) + (max_y - min_y);
     }
 
-    return tmp_hpwl;
+    cur_hpwl = tmp_hpwl / 2;
 }
 
 void FloorplanOptimizer::constructRelativePositions()
 {
-    int n = positiveSequence.size();
-    adjX.resize(n);
-    adjY.resize(n);
+    // Add +1 for the dummy node which acts as the universal predecessor
+    int n = blocks.size() + 1;
 
-    // Initialize graphs based on sequence pair rules
-    for (int i = 0; i < n; ++i)
+    // Clear previous graph data and resize for all blocks plus the dummy node
+    adjX.clear();
+    adjY.clear();
+    adjX.resize(n, std::vector<int>());
+    adjY.resize(n, std::vector<int>());
+
+    // Initialize relationships from the dummy node to all other blocks
+    // This effectively sets the dummy node as preceding all blocks
+    for (int i = 1; i < n; i++)
     {
-        for (int j = 0; j < n; ++j)
+        adjX[0].push_back(i);
+        adjY[0].push_back(i);
+    }
+
+    // Construct graphs based on sequence pair rules for actual blocks
+    for (int i = 0; i < blocks.size(); ++i)
+    {
+        for (int j = 0; j < blocks.size(); ++j)
         {
             if (i == j)
                 continue;
@@ -244,44 +257,77 @@ void FloorplanOptimizer::constructRelativePositions()
             int posI_Neg = std::find(negativeSequence.begin(), negativeSequence.end(), blocks[i]) - negativeSequence.begin();
             int posJ_Neg = std::find(negativeSequence.begin(), negativeSequence.end(), blocks[j]) - negativeSequence.begin();
 
+            // Adjust indices to account for the dummy node at index 0
             // Construct horizontal graph
             if (posI_Pos > posJ_Pos && posI_Neg > posJ_Neg)
             {
-                adjX[j].push_back(i); // j is left of i
+                adjX[j + 1].push_back(i + 1); // "+1" adjusts for the dummy node
             }
-
             // Construct vertical graph
             if (posI_Pos < posJ_Pos && posI_Neg > posJ_Neg)
             {
-                adjY[j].push_back(i); // j is below i
+                adjY[j + 1].push_back(i + 1); // "+1" adjusts for the dummy node
             }
+        }
+    }
+
+    // No need to apply transitive reduction to the dummy node's edges,
+    // but you may continue to apply it to the rest of the graph
+    transitiveReduction(adjX);
+    transitiveReduction(adjY);
+}
+
+void FloorplanOptimizer::transitiveReduction(std::vector<std::vector<int>> &adj)
+{
+    int n = adj.size();
+    for (int u = 0; u < n; ++u)
+    {
+        for (auto v : adj[u])
+        {
+            std::vector<bool> reachable(n, false);
+            std::queue<int> q;
+            q.push(v);
+
+            while (!q.empty())
+            {
+                int current = q.front();
+                q.pop();
+                for (int next : adj[current])
+                {
+                    if (!reachable[next])
+                    {
+                        reachable[next] = true;
+                        q.push(next);
+                    }
+                }
+            }
+
+            adj[u].erase(std::remove_if(adj[u].begin(), adj[u].end(),
+                                        [&reachable, &u](int v)
+                                        { return u != v && reachable[v]; }),
+                         adj[u].end());
         }
     }
 }
 
 void FloorplanOptimizer::calculateDimensionsUsingSPFA()
 {
-    int n = blocks.size(); // Use the size of movable blocks only
+    // The number of nodes including the dummy node
+    int n = blocks.size() + 1;
 
-    // Containers for distances (longest paths)
-    std::vector<int> distX(n, 0);
-    std::vector<int> distY(n, 0);
-
-    // Assuming the starting block is at position (0, 0)
-    // It's necessary to have a "dummy" start node if the graph doesn't have a natural start.
-    // For simplicity, let's assume the first block is the start; adjust as needed.
+    // Initialize distances with a large negative value for the longest path calculation,
+    // except for the dummy node, which starts at 0.
+    std::vector<int> distX(n, std::numeric_limits<int>::min());
+    std::vector<int> distY(n, std::numeric_limits<int>::min());
     distX[0] = 0;
     distY[0] = 0;
 
     std::queue<int> q;
     std::vector<bool> inQueue(n, false);
 
-    // Initially add all blocks to the queue for processing
-    for (int i = 0; i < n; ++i)
-    {
-        q.push(i);
-        inQueue[i] = true;
-    }
+    // Start the SPFA algorithm from the dummy node
+    q.push(0);
+    inQueue[0] = true;
 
     // Process horizontal constraints (X-axis)
     while (!q.empty())
@@ -292,9 +338,10 @@ void FloorplanOptimizer::calculateDimensionsUsingSPFA()
 
         for (int v : adjX[u])
         {
-            if (distX[v] < distX[u] + blocks[u]->width)
+            int width = (u == 0) ? 0 : blocks[u - 1]->width; // Using 0 width for dummy node
+            if (distX[v] < distX[u] + width)
             {
-                distX[v] = distX[u] + blocks[u]->width;
+                distX[v] = distX[u] + width;
                 if (!inQueue[v])
                 {
                     q.push(v);
@@ -304,14 +351,12 @@ void FloorplanOptimizer::calculateDimensionsUsingSPFA()
         }
     }
 
-    // Clear queue and reinitialize for vertical constraints (Y-axis)
+    // Reset inQueue for Y-axis processing
     std::fill(inQueue.begin(), inQueue.end(), false);
-    for (int i = 0; i < n; ++i)
-    {
-        q.push(i);
-        inQueue[i] = true;
-    }
+    q.push(0); // Start again from the dummy node
+    inQueue[0] = true;
 
+    // Process vertical constraints (Y-axis)
     while (!q.empty())
     {
         int u = q.front();
@@ -320,9 +365,10 @@ void FloorplanOptimizer::calculateDimensionsUsingSPFA()
 
         for (int v : adjY[u])
         {
-            if (distY[v] < distY[u] + blocks[u]->height)
+            int height = (u == 0) ? 0 : blocks[u - 1]->height; // Using 0 height for dummy node
+            if (distY[v] < distY[u] + height)
             {
-                distY[v] = distY[u] + blocks[u]->height;
+                distY[v] = distY[u] + height;
                 if (!inQueue[v])
                 {
                     q.push(v);
@@ -332,35 +378,24 @@ void FloorplanOptimizer::calculateDimensionsUsingSPFA()
         }
     }
 
-    // Update blocks' positions based on calculated distances
-    for (int i = 0; i < n; ++i)
+    // Update the positions of the blocks based on the calculated distances
+    for (int i = 1; i < n; ++i)
     {
-        if (distX[i] < 0)
-            distX[i] = 0; // Clamp to 0 to prevent underflow if negative
-        if (distY[i] < 0)
-            distY[i] = 0;
-
-        blocks[i]->posX = static_cast<size_t>(distX[i]);
-        blocks[i]->posY = static_cast<size_t>(distY[i]);
-
-        std::cout << "blocks " << blocks[i]->id << " posX " << blocks[i]->posX << " posY " << blocks[i]->posY << std::endl;
+        // Ensure non-negative values and cast to size_t
+        blocks[i - 1]->posX = static_cast<size_t>(std::max(0, distX[i]));
+        blocks[i - 1]->posY = static_cast<size_t>(std::max(0, distY[i]));
     }
 
-    // Calculate the total layout width and height, including terminals
-    size_t layoutWidth = 0, layoutHeight = 0;
-    for (const auto &block : blocks)
+    // Calculate the total layout width and height
+    layout_width = 0;
+    layout_height = 0;
+    for (int i = 1; i < n; ++i)
     {
-        layoutWidth = std::max(layoutWidth, block->posX + block->width);
-        layoutHeight = std::max(layoutHeight, block->posY + block->height);
-    }
-    for (const auto &terminal : terminals)
-    {
-        layoutWidth = std::max(layoutWidth, terminal->posX + terminal->width);
-        layoutHeight = std::max(layoutHeight, terminal->posY + terminal->height);
+        layout_width = std::max(layout_width, (int)(blocks[i - 1]->posX + blocks[i - 1]->width));
+        layout_height = std::max(layout_height, (int)(blocks[i - 1]->posY + blocks[i - 1]->height));
     }
 
-    layout_width = layoutWidth;
-    layout_height = layoutHeight;
+    totalArea = layout_width * layout_height;
 }
 
 // Move 1: Swap two elements (a and b by their pointers) in the positive sequence
@@ -390,82 +425,197 @@ void FloorplanOptimizer::move_2(Module *a, Module *b)
     // Swap a and b in the negative sequence
     std::swap(negativeSequence[negA], negativeSequence[negB]);
 }
+
+void FloorplanOptimizer::move_3(Module *a, Module *b)
+{
+    // Find indices of a and b in the positive sequence
+    auto posA = std::find(negativeSequence.begin(), negativeSequence.end(), a) - negativeSequence.begin();
+    auto posB = std::find(negativeSequence.begin(), negativeSequence.end(), b) - negativeSequence.begin();
+
+    // Swap a and b in the positive sequence
+    std::swap(negativeSequence[posA], negativeSequence[posB]);
+}
+
+void FloorplanOptimizer::move_4(Module *a) // rotate
+{
+    int tmp_width = a->width;
+    a->width = a->height;
+    a->height = tmp_width;
+}
+
+double FloorplanOptimizer::evaluateCost()
+{
+    num_iterations++;
+    averageArea = (averageArea * (num_iterations - 1) + totalArea) / static_cast<double>(num_iterations);
+    averagehpwl = (averagehpwl * (num_iterations - 1) + cur_hpwl) / static_cast<double>(num_iterations);
+
+    double overshoot_length = pen * (layout_width - outline_width + layout_height - outline_height);
+
+    return (alpha * totalArea / averageArea) + (1 - alpha) * (cur_hpwl + overshoot_length) / averagehpwl;
+}
+
 void FloorplanOptimizer::optimize()
 {
-    bool improvement = true;
-    while (improvement)
+
+    // Define a list of move functions using std::function. Each move function takes two module pointers as arguments.
+    std::vector<std::function<void(Module *, Module *)>> moveFunctions = {
+        [this](Module *a, Module *b)
+        { this->move_1(a, b); },
+        [this](Module *a, Module *b)
+        { this->move_2(a, b); },
+        [this](Module *a, Module *b)
+        { this->move_3(a, b); },
+        // For move_4, since it operates on a single module, we'll adapt it to fit the expected two-parameter function signature.
+        [this](Module *a, Module *)
+        { this->move_4(a); }};
+
+    // Simulated Annealing
+    do
     {
-        std::cout << "current area: " << layout_height * layout_width << std::endl;
-        improvement = false; // Assume no improvement will be found
+        constructRelativePositions();
+        calculateDimensionsUsingSPFA();
+        evaluateHPWL();
 
-        // Backup current sequences and area
-        auto backupPositiveSequence = positiveSequence;
-        auto backupNegativeSequence = negativeSequence;
-        auto backupArea = layout_height * layout_width; // Implement this function based on SPFA calculation
+        pen *= 2.0;
+        double T = 10000.0;
+        double alpha = 0.9;
+        double T_0 = 0.1;
+        int iteration_per_temp = 100;
 
-        // Try Move 1
-        for (size_t i = 0; i < positiveSequence.size() - 1 && !improvement; ++i)
+        while (T >= T_0)
         {
-            for (size_t j = i + 1; j < positiveSequence.size() && !improvement; ++j)
-            {
-                Module *blockA = positiveSequence[i]; // Example selection
-                Module *blockB = positiveSequence[j]; // Another example selection
-                move_1(blockA, blockB);               // Use move_1 here
-                constructRelativePositions();         // Reconstruct positions after the move
-                calculateDimensionsUsingSPFA();       // Recalculate dimensions
+            // Cooling schedule
+            T = alpha * T;
+            std::cout << "cur_T:" << T << std::endl;
 
-                auto newArea = layout_height * layout_width;
-                if (newArea < backupArea)
+            std::cout << "total area: " << layout_height * layout_width << std::endl;
+
+            // Backup current sequences and area
+            auto backupPositiveSequence = positiveSequence;
+            auto backupNegativeSequence = negativeSequence;
+            auto backupCost = evaluateCost(); // Implement this function based on SPFA calculation
+            auto backupAverageArea = averageArea;
+            auto backupAverageHPWL = averagehpwl;
+
+            // Randomly shuffle the move functions to randomize their order
+            unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+            shuffle(moveFunctions.begin(), moveFunctions.end(), std::default_random_engine(seed));
+            bool accept = false;
+            for (int i = 0; i < iteration_per_temp; i++)
+            {
+                std::cout << "total area: " << layout_height * layout_width << std::endl;
+                for (auto &moveFunction : moveFunctions)
                 {
-                    improvement = true; // Accept the move
+                    // Attempt each move type in the shuffled order
+                    for (size_t i = 0; i < positiveSequence.size() - 1; ++i)
+                    {
+                        for (size_t j = i + 1; j < positiveSequence.size(); ++j)
+                        {
+                            Module *blockA = positiveSequence[i];
+                            Module *blockB = positiveSequence[j];
+
+                            // Call the move function. Note: For move_4, blockB is ignored.
+                            moveFunction(blockA, blockB);
+
+                            constructRelativePositions();   // Reconstruct positions after the move
+                            calculateDimensionsUsingSPFA(); // Recalculate dimensions
+                            evaluateHPWL();
+
+                            double newCost = evaluateCost();
+                            if (newCost < backupCost)
+                            {
+                                accept = true;
+                                backupCost = newCost;
+                                backupPositiveSequence = positiveSequence;
+                                backupNegativeSequence = negativeSequence;
+                                backupAverageArea = averageArea;
+                                backupAverageHPWL = averagehpwl;
+                            }
+                            else
+                            {
+                                double delta = newCost - backupCost;
+                                if (delta > 0.01)
+                                {
+                                    double acceptProb = exp(-delta * 10000 / T);
+                                    double randProb = static_cast<double>(rand()) / RAND_MAX;
+                                    if (randProb < acceptProb)
+                                    {
+                                        accept = true;
+                                        backupCost = newCost;
+                                        backupPositiveSequence = positiveSequence;
+                                        backupNegativeSequence = negativeSequence;
+                                        backupAverageArea = averageArea;
+                                        backupAverageHPWL = averagehpwl;
+                                    }
+                                    else
+                                    {
+                                        // Restore sequences and layout if no improvement
+                                        positiveSequence = backupPositiveSequence;
+                                        negativeSequence = backupNegativeSequence;
+                                        constructRelativePositions();   // Restore positions
+                                        calculateDimensionsUsingSPFA(); // Restore dimensions
+                                        evaluateHPWL();
+                                        averageArea = backupAverageArea;
+                                        averagehpwl = backupAverageHPWL;
+                                        num_iterations--;
+                                    }
+                                }
+                                else
+                                {
+                                    // Restore sequences and layout if no improvement
+                                    positiveSequence = backupPositiveSequence;
+                                    negativeSequence = backupNegativeSequence;
+                                    constructRelativePositions();   // Restore positions
+                                    calculateDimensionsUsingSPFA(); // Restore dimensions
+                                    evaluateHPWL();
+                                    averageArea = backupAverageArea;
+                                    averagehpwl = backupAverageHPWL;
+                                    num_iterations--;
+                                }
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    // Restore sequences and layout if no improvement
-                    positiveSequence = backupPositiveSequence;
-                    negativeSequence = backupNegativeSequence;
-                    constructRelativePositions();   // Restore positions
-                    calculateDimensionsUsingSPFA(); // Restore dimensions
-                }
+            }
+            if (accept == false)
+            {
+                break;
             }
         }
 
-        // If Move 1 didn't improve, try Move 2
-        if (!improvement)
-        {
-            for (size_t i = 0; i < positiveSequence.size() - 1; ++i)
-            {
-                for (size_t j = i + 1; j < positiveSequence.size(); ++j)
-                {
-                    Module *blockA = positiveSequence[i]; // Example selection
-                    Module *blockB = positiveSequence[j]; // Another example selection
-                    move_2(blockA, blockB);               // Use move_2 here
-                    constructRelativePositions();
-                    calculateDimensionsUsingSPFA();
+    } while (layout_height - outline_height > 0 || layout_width - outline_width > 0);
+}
 
-                    auto newArea = layout_height * layout_width;
-                    if (newArea < backupArea)
-                    {
-                        improvement = true; // Accept the move
-                        break;              // Exit the loop if improvement is found
-                    }
-                    else
-                    {
-                        // Restore sequences and layout if no improvement
-                        positiveSequence = backupPositiveSequence;
-                        negativeSequence = backupNegativeSequence;
-                        constructRelativePositions();   // Restore positions
-                        calculateDimensionsUsingSPFA(); // Restore dimensions
-                    }
-                }
-                if (improvement)
-                    break; // Exit the outer loop if improvement is found
-            }
-        }
-
-        if (!improvement)
-            break; // Exit the optimization loop if no improvement
+void FloorplanOptimizer::exportSolution(const std::string &outputPath, double programRuntime)
+{
+    std::ofstream outFile(outputPath);
+    if (!outFile.is_open())
+    {
+        std::cerr << "Failed to open " << outputPath << " for writing.\n";
+        return;
     }
+
+    // Assuming chip width and height are calculated and stored
+    double chipArea = layout_width * layout_height;
+
+    // Write the required information
+    outFile << evaluateCost() << "\n";
+    outFile << cur_hpwl << "\n";
+    outFile << chipArea << "\n";
+    outFile << layout_width << " " << layout_height << "\n";
+    outFile << programRuntime << "\n";
+
+    // Write bounding box information for each macro
+    for (const auto &block : blocks)
+    {
+        // Calculate upper-right corner (x2, y2)
+        int x2 = block->posX + block->width;
+        int y2 = block->posY + block->height;
+
+        outFile << block->id << " " << block->posX << " " << block->posY << " " << x2 << " " << y2 << "\n";
+    }
+
+    outFile.close();
 }
 
 int main(int argc, char *argv[])
@@ -481,18 +631,19 @@ int main(int argc, char *argv[])
     std::string netFilePath = argv[3];
     std::string outputFilePath = argv[4];
 
-    FloorplanOptimizer optimizer;
+    FloorplanOptimizer optimizer(alpha);
     optimizer.loadFromFiles(blockFilePath, netFilePath);
     // After loading, output loaded data to command line
     optimizer.printLoadedData();
     optimizer.initializeSequences();
+
     optimizer.constructRelativePositions();
     optimizer.calculateDimensionsUsingSPFA();
+    optimizer.evaluateHPWL();
 
     optimizer.optimize();
 
-    int hpwl = optimizer.evaluateHPWL();
-    std::cout << "hpwl: " << hpwl << std::endl;
+    optimizer.exportSolution(outputFilePath, 0);
     std::cout << "layout width: " << optimizer.layout_width << " layout height: " << optimizer.layout_height << std::endl;
 
     return 0;

@@ -66,8 +66,17 @@ private:
     std::vector<std::vector<int>> adjX; // Adjacency list for horizontal graph
     std::vector<std::vector<int>> adjY; // Adjacency list for vertical graph
 
+    // all data
+    int cur_hpwl = 0; // Half-perimeter wirelength
+    int totalArea = 0;
+    double averageArea = 0;
+    double averagehpwl = 0;
+    int num_iterations = 0;
+    double alpha = 0;
+    double pen = 1.0;
+
 public:
-    FloorplanOptimizer()
+    FloorplanOptimizer(int alpha) : alpha(alpha)
     {
         // Constructor implementation
     }
@@ -109,19 +118,22 @@ public:
 
     void move_1(Module *a, Module *b);
     void move_2(Module *a, Module *b);
+    void move_3(Module *a, Module *b);
+    void move_4(Module *a);
     void optimize(); // Main method to run the optimization process
 
     // Utility methods for floorplan manipulation
     void initializeSequences();
-    double evaluateCost() const;
-    int evaluateHPWL() const;
+    double evaluateCost();
+    void evaluateHPWL();
 
     void constructRelativePositions();
+    void transitiveReduction(std::vector<std::vector<int>> &adj);
     void calculateDimensionsUsingSPFA();
 
     // Methods for input/output
     void loadFromFiles(const std::string &blockFilePath, const std::string &netFilePath);
-    void exportSolution(const std::string &outputPath) const;
+    void exportSolution(const std::string &outputPath, double programRuntime);
 
     void printLoadedData() const
     {
