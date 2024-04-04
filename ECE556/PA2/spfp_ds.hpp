@@ -73,7 +73,7 @@ private:
     double averagehpwl = 0;
     int num_iterations = 0;
     double alpha = 0;
-    double pen = 1.0;
+    double pen = 2.0;
 
 public:
     FloorplanOptimizer(int alpha) : alpha(alpha)
