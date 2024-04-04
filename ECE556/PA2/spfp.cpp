@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <climits>
 #include <vector>
 #include <string>
 #include <regex>
@@ -445,13 +446,13 @@ void FloorplanOptimizer::move_4(Module *a) // rotate
 
 double FloorplanOptimizer::evaluateCost()
 {
-    num_iterations++;
-    averageArea = (averageArea * (num_iterations - 1) + totalArea) / static_cast<double>(num_iterations);
+    averageArea = (averageArea * (num_iterations - 1) + layout_height * layout_width) / static_cast<double>(num_iterations);
     averagehpwl = (averagehpwl * (num_iterations - 1) + cur_hpwl) / static_cast<double>(num_iterations);
 
     double overshoot_length = pen * (layout_width - outline_width + layout_height - outline_height);
 
-    return (alpha * totalArea / averageArea) + (1 - alpha) * (cur_hpwl + overshoot_length) / averagehpwl;
+    return (alpha * layout_height * layout_width / averageArea) +
+           (1 - alpha) * (cur_hpwl + overshoot_length) / averagehpwl;
 }
 
 void FloorplanOptimizer::optimize()
@@ -472,114 +473,94 @@ void FloorplanOptimizer::optimize()
     // Simulated Annealing
     do
     {
-        constructRelativePositions();
-        calculateDimensionsUsingSPFA();
-        evaluateHPWL();
-
         pen *= 2.0;
-        double T = 10000.0;
-        double alpha = 0.9;
-        double T_0 = 0.1;
-        int iteration_per_temp = 100;
+        double T = 1000.0;
+        double alpha = 0.95;
+        double T_0 = 0.01;
+        int iteration_per_temp = 3000;
 
         while (T >= T_0)
         {
             // Cooling schedule
             T = alpha * T;
-            std::cout << "cur_T:" << T << std::endl;
-
-            std::cout << "total area: " << layout_height * layout_width << std::endl;
-
             // Backup current sequences and area
+            num_iterations++;
+            constructRelativePositions();
+            calculateDimensionsUsingSPFA();
+            evaluateHPWL();
             auto backupPositiveSequence = positiveSequence;
             auto backupNegativeSequence = negativeSequence;
             auto backupCost = evaluateCost(); // Implement this function based on SPFA calculation
             auto backupAverageArea = averageArea;
             auto backupAverageHPWL = averagehpwl;
 
+            std::cout << "cur_T:" << T << " pen:" << pen << std::endl;
+            std::cout << "total area: " << layout_height * layout_width << " bc: " << backupCost << std::endl;
+
             // Randomly shuffle the move functions to randomize their order
             unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
             shuffle(moveFunctions.begin(), moveFunctions.end(), std::default_random_engine(seed));
-            bool accept = false;
-            for (int i = 0; i < iteration_per_temp; i++)
+            for (int a = 0; a < iteration_per_temp; a++)
             {
-                std::cout << "total area: " << layout_height * layout_width << std::endl;
                 for (auto &moveFunction : moveFunctions)
                 {
-                    // Attempt each move type in the shuffled order
-                    for (size_t i = 0; i < positiveSequence.size() - 1; ++i)
+
+                    num_iterations++;
+                    int i = rand() % blocks.size();
+                    int j = rand() % blocks.size();
+                    while (i == j)
                     {
-                        for (size_t j = i + 1; j < positiveSequence.size(); ++j)
+                        i = rand() % blocks.size();
+                        j = rand() % blocks.size();
+                    }
+
+                    Module *blockA = positiveSequence[i];
+                    Module *blockB = positiveSequence[j];
+
+                    // Call the move function. Note: For move_4, blockB is ignored.
+                    moveFunction(blockA, blockB);
+
+                    constructRelativePositions();   // Reconstruct positions after the move
+                    calculateDimensionsUsingSPFA(); // Recalculate dimensions
+                    evaluateHPWL();
+
+                    double newCost = evaluateCost();
+                    if (newCost < backupCost)
+                    {
+                        backupCost = newCost;
+                        backupPositiveSequence = positiveSequence;
+                        backupNegativeSequence = negativeSequence;
+                        backupAverageArea = averageArea;
+                        backupAverageHPWL = averagehpwl;
+                    }
+                    else
+                    {
+                        double delta = newCost - backupCost;
+                        double acceptProb = std::exp(-delta * 10000.0 / (double)T);
+                        double randProb = static_cast<double>(rand()) / RAND_MAX;
+
+                        if (randProb < acceptProb)
                         {
-                            Module *blockA = positiveSequence[i];
-                            Module *blockB = positiveSequence[j];
-
-                            // Call the move function. Note: For move_4, blockB is ignored.
-                            moveFunction(blockA, blockB);
-
-                            constructRelativePositions();   // Reconstruct positions after the move
-                            calculateDimensionsUsingSPFA(); // Recalculate dimensions
+                            backupCost = newCost;
+                            backupPositiveSequence = positiveSequence;
+                            backupNegativeSequence = negativeSequence;
+                            backupAverageArea = averageArea;
+                            backupAverageHPWL = averagehpwl;
+                        }
+                        else
+                        {
+                            // Restore sequences and layout if no improvement
+                            positiveSequence = backupPositiveSequence;
+                            negativeSequence = backupNegativeSequence;
+                            constructRelativePositions();   // Restore positions
+                            calculateDimensionsUsingSPFA(); // Restore dimensions
                             evaluateHPWL();
-
-                            double newCost = evaluateCost();
-                            if (newCost < backupCost)
-                            {
-                                accept = true;
-                                backupCost = newCost;
-                                backupPositiveSequence = positiveSequence;
-                                backupNegativeSequence = negativeSequence;
-                                backupAverageArea = averageArea;
-                                backupAverageHPWL = averagehpwl;
-                            }
-                            else
-                            {
-                                double delta = newCost - backupCost;
-                                if (delta > 0.01)
-                                {
-                                    double acceptProb = exp(-delta * 10000 / T);
-                                    double randProb = static_cast<double>(rand()) / RAND_MAX;
-                                    if (randProb < acceptProb)
-                                    {
-                                        accept = true;
-                                        backupCost = newCost;
-                                        backupPositiveSequence = positiveSequence;
-                                        backupNegativeSequence = negativeSequence;
-                                        backupAverageArea = averageArea;
-                                        backupAverageHPWL = averagehpwl;
-                                    }
-                                    else
-                                    {
-                                        // Restore sequences and layout if no improvement
-                                        positiveSequence = backupPositiveSequence;
-                                        negativeSequence = backupNegativeSequence;
-                                        constructRelativePositions();   // Restore positions
-                                        calculateDimensionsUsingSPFA(); // Restore dimensions
-                                        evaluateHPWL();
-                                        averageArea = backupAverageArea;
-                                        averagehpwl = backupAverageHPWL;
-                                        num_iterations--;
-                                    }
-                                }
-                                else
-                                {
-                                    // Restore sequences and layout if no improvement
-                                    positiveSequence = backupPositiveSequence;
-                                    negativeSequence = backupNegativeSequence;
-                                    constructRelativePositions();   // Restore positions
-                                    calculateDimensionsUsingSPFA(); // Restore dimensions
-                                    evaluateHPWL();
-                                    averageArea = backupAverageArea;
-                                    averagehpwl = backupAverageHPWL;
-                                    num_iterations--;
-                                }
-                            }
+                            averageArea = backupAverageArea;
+                            averagehpwl = backupAverageHPWL;
+                            num_iterations--;
                         }
                     }
                 }
-            }
-            if (accept == false)
-            {
-                break;
             }
         }
 
@@ -641,9 +622,19 @@ int main(int argc, char *argv[])
     optimizer.calculateDimensionsUsingSPFA();
     optimizer.evaluateHPWL();
 
+    // Start timing
+    auto start = std::chrono::high_resolution_clock::now();
+
     optimizer.optimize();
 
-    optimizer.exportSolution(outputFilePath, 0);
+    // Stop timing
+    auto stop = std::chrono::high_resolution_clock::now();
+
+    // Calculate duration
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+    std::cout << "runtime: " << duration.count() << std::endl;
+
+    optimizer.exportSolution(outputFilePath, (double)duration.count());
     std::cout << "layout width: " << optimizer.layout_width << " layout height: " << optimizer.layout_height << std::endl;
 
     return 0;
