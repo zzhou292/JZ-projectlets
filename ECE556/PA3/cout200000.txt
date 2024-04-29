@@ -1,0 +1,2 @@
+findMST runtime: 251.176 seconds
+Total cost: 1.33218e+13
